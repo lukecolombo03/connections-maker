@@ -33,7 +33,7 @@ function App() {
     //checks all information to make sure its ok to generate a puzzle
     function prepareForGenerate() {
         let allDescs = [yellowDesc, greenDesc, blueDesc, purpleDesc];
-        // console.log(allDescs);
+        console.log(allDescs);
         //check descriptions are all there
         for (let i = 0; i < 4; i++) {
             if (allDescs[i] == "") {
@@ -41,7 +41,7 @@ function App() {
                 break;
             }
         }
-        // console.log(allWords.map(category => category.length));
+        console.log(allWords);
         //check there's exactly 4 words in each category
         for (let category of allWords) {
             if (category.length !== 4) {
