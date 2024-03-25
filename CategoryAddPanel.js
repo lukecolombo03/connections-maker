@@ -1,14 +1,25 @@
 import {useState} from "react";
-export default function CategoryAddPanel({userInput, setUserInput}) {
+//TODO: if user presses enter while typing in stuff, send an error message (don't erase all)
+export default function CategoryAddPanel({wordInput, setUserInput, descInput, setDescInput}) {
 
     return (
-        <form >
-            <label> Answers (comma separated): {" "}
-                <input type={"text"} value={userInput.toUpperCase()}
-                       onChange={event =>
-                       {setUserInput(event.target.value)}}>
-                </input>
-            </label>
-        </form>
+        <>
+            <form>
+                <label> Answers (Comma-separated) {" "}
+                    <input type={"text"} value={wordInput.toUpperCase()}
+                           onChange={event => {
+                               setUserInput(event.target.value)
+                           }}>
+                    </input>
+                </label>
+            </form>
+            <form>
+                <label>Description {" "}
+                    <input type="text" value={descInput.toUpperCase()}
+                           onChange={event => {
+                               setDescInput(event.target.value)
+                           }}/></label>
+            </form>
+        </>
     )
 }

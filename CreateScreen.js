@@ -1,64 +1,11 @@
-import './App.css';
 import {useState} from "react";
 import CategoryAddPanel from "./CategoryAddPanel";
 import Square from "./Square";
-import PuzzleScreen from "./PuzzleScreen";
+export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, setYellowDesc,
+                                     greenInput, setGreenInput, greenDesc, setGreenDesc,
+                                     blueInput, setBlueInput, blueDesc, setBlueDesc, purpleInput,
+                                     setPurpleInput, purpleDesc, setPurpleDesc}) {
 
-function App() {
-    const [yellowInput, setYellowInput] = useState("");
-    const [greenInput, setGreenInput] = useState("");
-    const [blueInput, setBlueInput] = useState("");
-    const [purpleInput, setPurpleInput] = useState("");
-
-    // a list of lists, each inner list is all of the words for a category (yellow, blue, etc)
-    let allWords = [yellowInput, greenInput, blueInput, purpleInput].map(
-        innerList => parseInput(innerList));
-
-    const [yellowDesc, setYellowDesc] = useState("");
-    const [greenDesc, setGreenDesc] = useState("");
-    const [blueDesc, setBlueDesc] = useState("");
-    const [purpleDesc, setPurpleDesc] = useState("");
-
-    //which screen is to be displayed: create screen or puzzle screen
-    const [screen, setScreen] = useState(0);
-
-    // pares user's input so the commas separate it into 4 words
-    // color param should be one of the state variables
-    function parseInput(color) {
-        // making sure there always exists 4 elements
-        let splitText = ["", "", "", ""];
-        // splits user input by comma, maps it to uppercase
-        splitText = color.split(",").map(word => word.toUpperCase());
-        return splitText;
-    }
-
-    //checks all information to make sure its ok to generate a puzzle
-    function prepareForGenerate() {
-        let allDescs = [yellowDesc, greenDesc, blueDesc, purpleDesc];
-        console.log(allDescs);
-        //check descriptions are all there
-        for (let i = 0; i < 4; i++) {
-            if (allDescs[i] == "") {
-                alert("Error: please enter a description");
-                break;
-            }
-        }
-
-        //check there's exactly 4 words in each category
-        if (allWords.length !== 4) {
-            alert("Error: one category is missing words");
-        } else {
-            for (let category of allWords) {
-                if (category.length !== 4) {
-                    alert("Error: need four words in each category");
-                    break;
-                }
-            }
-        }
-    }
-
-
-    //TODO: color-code
     return (
         <div>
             <h1 className={"title"}>Create a Puzzle</h1>
@@ -105,9 +52,7 @@ function App() {
                 </div>
             </div>
             <button>Shuffle: (todo)</button>
-            <button onClick={() => prepareForGenerate()}>Generate:</button>
+            <button onClick={() => parseDescriptions()}>Generate:</button>
         </div>
-    );
+    )
 }
-
-export default App;
