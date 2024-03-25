@@ -79,4 +79,14 @@ code {
   text-align: center;
 }
 
+.puzzle-container {
+  display: block flex;
+  align-content: center;
+}
+
+.row {
+  display: block flex;
+  flex-direction: row;
+}
+
 
