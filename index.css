@@ -24,18 +24,46 @@ code {
 
 .main-div {
   display: inline-flex;
+  flex-direction: row;
+  gap: 120px;
+  /*border: 2px solid gold;*/
+  width: 100%;
 }
 
 .word-grid {
   display: block;
-  border: 2px solid pink;
-  width: fit-content;
+  /*border: 2px solid pink;*/
+  width: 60%;
 }
 
 .word-add {
-  display: block;
-  border: 2px solid blue;
-  width: 400px;
+  display: block flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+
+  /*border: 2px solid blue;*/
+  width: 30%;
+}
+
+.input-panel {
+  /*border: 2px solid red;*/
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: seagreen;
+}
+
+.blue {
+  background-color: dodgerblue;
+}
+
+.purple {
+  background-color: mediumpurple;
 }
 
 .square {
@@ -47,7 +75,7 @@ code {
   width: 120px;
   margin: 10px;
   border-radius: 5px;
-  padding: 0px;
+  /*padding: 0px;*/
   text-align: center;
 }
 

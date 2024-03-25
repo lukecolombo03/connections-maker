@@ -25,17 +25,15 @@ function App() {
     // pares user's input so the commas separate it into 4 words
     // color param should be one of the state variables
     function parseInput(color) {
-        // making sure there always exists 4 elements
-        let splitText = ["", "", "", ""];
         // splits user input by comma, maps it to uppercase
-        splitText = color.split(",").map(word => word.toUpperCase());
+        let splitText = color.split(",").map(word => word.toUpperCase());
         return splitText;
     }
 
     //checks all information to make sure its ok to generate a puzzle
     function prepareForGenerate() {
         let allDescs = [yellowDesc, greenDesc, blueDesc, purpleDesc];
-        console.log(allDescs);
+        // console.log(allDescs);
         //check descriptions are all there
         for (let i = 0; i < 4; i++) {
             if (allDescs[i] == "") {
@@ -43,22 +41,17 @@ function App() {
                 break;
             }
         }
-
+        // console.log(allWords.map(category => category.length));
         //check there's exactly 4 words in each category
-        if (allWords.length !== 4) {
-            alert("Error: one category is missing words");
-        } else {
-            for (let category of allWords) {
-                if (category.length !== 4) {
-                    alert("Error: need four words in each category");
-                    break;
-                }
+        for (let category of allWords) {
+            if (category.length !== 4) {
+                alert("Error: need four words in each category");
+                break;
             }
         }
     }
 
-
-    //TODO: color-code
+    //TODO: make sure rows of CategoryAddPanels and Squares line up
     return (
         <div>
             <h1 className={"title"}>Create a Puzzle</h1>
@@ -66,16 +59,16 @@ function App() {
                 <div className={"word-add"}>
                     <CategoryAddPanel
                         wordInput={yellowInput} setUserInput={setYellowInput} descInput={yellowDesc}
-                        setDescInput={setYellowDesc}/>
+                        setDescInput={setYellowDesc} color={"yellow"}/>
                     <CategoryAddPanel
                         wordInput={greenInput} setUserInput={setGreenInput} descInput={greenDesc}
-                        setDescInput={setGreenDesc}/>
+                        setDescInput={setGreenDesc} color={"green"}/>
                     <CategoryAddPanel
                         wordInput={blueInput} setUserInput={setBlueInput} descInput={blueDesc}
-                        setDescInput={setBlueDesc}/>
+                        setDescInput={setBlueDesc} color={"blue"}/>
                     <CategoryAddPanel
                         wordInput={purpleInput} setUserInput={setPurpleInput} descInput={purpleDesc}
-                        setDescInput={setPurpleDesc}/>
+                        setDescInput={setPurpleDesc} color={"purple"}/>
                 </div>
                 <div className={"word-grid"}>
                     <div className={"row"}>
