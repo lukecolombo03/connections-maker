@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "connectionsmaker",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
