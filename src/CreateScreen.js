@@ -2,19 +2,18 @@ import {useState} from "react";
 import UserInputPanel from "./UserInputPanel";
 import WordSquare from "./WordSquare";
 //TODO: make sure rows of CategoryAddPanels and Squares line up
+//TODO: let users drag squares around to rearrange them
 export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, setYellowDesc,
                                      greenInput, setGreenInput, greenDesc, setGreenDesc,
                                      blueInput, setBlueInput, blueDesc, setBlueDesc, purpleInput,
                                      setPurpleInput, purpleDesc, setPurpleDesc, setScreen, allWords,
                                          parseInput}) {
 
-    const [selected, setSelected] = useState([]);
-
     //checks all information to make sure it's ok to generate a puzzle
     //made a no error flag so I could just click one button to test PuzzleScreen
     function prepareForGenerate(noErrorFlag = false) {
         let allDescs = [yellowDesc, greenDesc, blueDesc, purpleDesc];
-        console.log(allDescs);
+        // console.log(allDescs);
         let error = false;
         if (!noErrorFlag) {
             // is there an error?
@@ -26,7 +25,7 @@ export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, s
                     break;
                 }
             }
-            console.log(allWords);
+            // console.log(allWords);
             //check there's exactly 4 words in each category
             for (let category of allWords) {
                 if (category.length !== 4) {
@@ -44,14 +43,14 @@ export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, s
 
     //making it easier to test PuzzleScreen
     function autofill() {
-        setYellowInput("1,2,3,4");
-        setGreenInput("5,6,7,8");
-        setBlueInput("9,10,11,12");
-        setPurpleInput("13,14,15,16");
-        setYellowDesc("A");
-        setGreenDesc("B");
-        setBlueDesc("C");
-        setPurpleDesc("D");
+        setYellowInput("a,b,c,d");
+        setGreenInput("e,f,g,h");
+        setBlueInput("i,j,k,l");
+        setPurpleInput("m,n,o,p");
+        setYellowDesc("first");
+        setGreenDesc("second");
+        setBlueDesc("third");
+        setPurpleDesc("fourth");
         setScreen(1);
         prepareForGenerate(true);
     }
@@ -75,6 +74,8 @@ export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, s
                         setDescInput={setPurpleDesc} color={"purple"}/>
                 </div>
                 <div className={"word-grid"}>
+                    {/*Note: tried to make this fewer lines using map but parseInput(yellowInput) is
+                    variable length so it's tricky*/}
                     <div className={"row"}>
                         <WordSquare value={parseInput(yellowInput)[0]}/>
                         <WordSquare value={parseInput(yellowInput)[1]}/>

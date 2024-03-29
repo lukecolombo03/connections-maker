@@ -30,10 +30,27 @@ code {
   width: 100%;
 }
 
+
+
 .word-grid {
-  display: block;
+  display: block flex;
+  flex-flow: row wrap;
   /*border: 2px solid pink;*/
-  width: 60%;
+  width: 600px;
+}
+
+.square {
+  background: #dadace;
+  color: black;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  height: 60px;
+  width: 120px;
+  margin: 10px;
+  border-radius: 5px;
+  /*padding: 0px;*/
+  text-align: center;
 }
 
 .word-add {
@@ -66,17 +83,11 @@ code {
   background-color: mediumpurple;
 }
 
-.square {
-  background: #dadada;
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  height: 60px;
-  width: 120px;
-  margin: 10px;
-  border-radius: 5px;
-  /*padding: 0px;*/
-  text-align: center;
+
+
+.selected {
+  background: #707065;
+  color: white;
 }
 
 .puzzle-container {
