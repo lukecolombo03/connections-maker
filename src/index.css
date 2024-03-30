@@ -30,7 +30,11 @@ code {
   width: 100%;
 }
 
-
+.puzzle-container {
+  display: block flex;
+  flex-direction: column;
+  gap: 25px;
+}
 
 .word-grid {
   display: block flex;
@@ -61,6 +65,7 @@ code {
 
   /*border: 2px solid blue;*/
   width: 30%;
+  margin-bottom: 30px;
 }
 
 .input-panel {
@@ -84,7 +89,6 @@ code {
 }
 
 
-
 .selected {
   background: #707065;
   color: white;
@@ -96,6 +100,26 @@ code {
 }
 
 .row {
+  display: block flex;
+  flex-direction: row;
+}
+
+.bottom-buttons {
+  display: block flex;
+  flex-direction: row;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: #676262;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.mistakes {
   display: block flex;
   flex-direction: row;
 }

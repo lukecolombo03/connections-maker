@@ -31,6 +31,9 @@ function App() {
     //which screen is to be displayed: create screen or puzzle screen
     const [screen, setScreen] = useState(0);
 
+    //How many mistakes the user has. If null, they have unlimited mistakes.
+    const [mistakes, setMistakes] = useState(null);
+
     let content;
     if (screen === 0) {
         content = <CreateScreen yellowInput={yellowInput} setYellowInput={setYellowInput}
@@ -41,11 +44,13 @@ function App() {
                                 greenDesc={greenDesc} setGreenDesc={setGreenDesc}
                                 blueDesc={blueDesc} setBlueDesc={setBlueDesc}
                                 purpleDesc={purpleDesc} setPurpleDesc={setPurpleDesc}
-                                setScreen={setScreen} allWords={allWords} parseInput={parseInput}/>
+                                setScreen={setScreen} allWords={allWords} parseInput={parseInput}
+                                mistakes={mistakes} setMistakes={setMistakes}/>
     }
     if (screen === 1) {
         content = <PuzzleScreen words={allWords}
-                                descriptions={[yellowDesc, greenDesc, blueDesc, purpleDesc]}/>
+                                descriptions={[yellowDesc, greenDesc, blueDesc, purpleDesc]}
+        mistakes={mistakes} setMistakes={setMistakes}/>
     }
 
 

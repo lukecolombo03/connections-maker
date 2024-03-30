@@ -1,13 +1,31 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import UserInputPanel from "./UserInputPanel";
 import WordSquare from "./WordSquare";
 //TODO: make sure rows of CategoryAddPanels and Squares line up
 //TODO: let users drag squares around to rearrange them
-export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, setYellowDesc,
-                                     greenInput, setGreenInput, greenDesc, setGreenDesc,
-                                     blueInput, setBlueInput, blueDesc, setBlueDesc, purpleInput,
-                                     setPurpleInput, purpleDesc, setPurpleDesc, setScreen, allWords,
-                                         parseInput}) {
+export default function CreateScreen({
+                                         yellowInput,
+                                         setYellowInput,
+                                         yellowDesc,
+                                         setYellowDesc,
+                                         greenInput,
+                                         setGreenInput,
+                                         greenDesc,
+                                         setGreenDesc,
+                                         blueInput,
+                                         setBlueInput,
+                                         blueDesc,
+                                         setBlueDesc,
+                                         purpleInput,
+                                         setPurpleInput,
+                                         purpleDesc,
+                                         setPurpleDesc,
+                                         setScreen,
+                                         allWords,
+                                         parseInput,
+                                         mistakes,
+                                         setMistakes
+                                     }) {
 
     //checks all information to make sure it's ok to generate a puzzle
     //made a no error flag so I could just click one button to test PuzzleScreen
@@ -52,6 +70,7 @@ export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, s
         setBlueDesc("third");
         setPurpleDesc("fourth");
         setScreen(1);
+        setMistakes(4);
         prepareForGenerate(true);
     }
 
@@ -72,33 +91,42 @@ export default function CreateScreen({yellowInput, setYellowInput, yellowDesc, s
                     <UserInputPanel
                         wordInput={purpleInput} setUserInput={setPurpleInput} descInput={purpleDesc}
                         setDescInput={setPurpleDesc} color={"purple"}/>
+                    <form>
+                        <label>
+                            Mistakes allowed: {" "}
+                            <input type="number" value={mistakes}
+                                   onChange={event => {
+                                       setMistakes(event.target.value)
+                                   }}/>
+                        </label>
+                    </form>
                 </div>
                 <div className={"word-grid"}>
                     {/*Note: tried to make this fewer lines using map but parseInput(yellowInput) is
                     variable length so it's tricky*/}
                     <div className={"row"}>
-                        <WordSquare value={parseInput(yellowInput)[0]}/>
-                        <WordSquare value={parseInput(yellowInput)[1]}/>
-                        <WordSquare value={parseInput(yellowInput)[2]}/>
-                        <WordSquare value={parseInput(yellowInput)[3]}/>
+                        <WordSquare text={parseInput(yellowInput)[0]}/>
+                        <WordSquare text={parseInput(yellowInput)[1]}/>
+                        <WordSquare text={parseInput(yellowInput)[2]}/>
+                        <WordSquare text={parseInput(yellowInput)[3]}/>
                     </div>
                     <div className={"row"}>
-                        <WordSquare value={parseInput(greenInput)[0]}/>
-                        <WordSquare value={parseInput(greenInput)[1]}/>
-                        <WordSquare value={parseInput(greenInput)[2]}/>
-                        <WordSquare value={parseInput(greenInput)[3]}/>
+                        <WordSquare text={parseInput(greenInput)[0]}/>
+                        <WordSquare text={parseInput(greenInput)[1]}/>
+                        <WordSquare text={parseInput(greenInput)[2]}/>
+                        <WordSquare text={parseInput(greenInput)[3]}/>
                     </div>
                     <div className={"row"}>
-                        <WordSquare value={parseInput(blueInput)[0]}/>
-                        <WordSquare value={parseInput(blueInput)[1]}/>
-                        <WordSquare value={parseInput(blueInput)[2]}/>
-                        <WordSquare value={parseInput(blueInput)[3]}/>
+                        <WordSquare text={parseInput(blueInput)[0]}/>
+                        <WordSquare text={parseInput(blueInput)[1]}/>
+                        <WordSquare text={parseInput(blueInput)[2]}/>
+                        <WordSquare text={parseInput(blueInput)[3]}/>
                     </div>
                     <div className={"row"}>
-                        <WordSquare value={parseInput(purpleInput)[0]}/>
-                        <WordSquare value={parseInput(purpleInput)[1]}/>
-                        <WordSquare value={parseInput(purpleInput)[2]}/>
-                        <WordSquare value={parseInput(purpleInput)[3]}/>
+                        <WordSquare text={parseInput(purpleInput)[0]}/>
+                        <WordSquare text={parseInput(purpleInput)[1]}/>
+                        <WordSquare text={parseInput(purpleInput)[2]}/>
+                        <WordSquare text={parseInput(purpleInput)[3]}/>
                     </div>
                 </div>
             </div>

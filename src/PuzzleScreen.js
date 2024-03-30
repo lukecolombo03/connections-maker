@@ -1,8 +1,12 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import WordSquare from "./WordSquare";
+import Mistakes from "./Mistakes";
 //TODO: do positioning in CreateScreen, pass that here
 //NOTE: WORDS AREN'T NECESSARILY UNIQUE
-export default function PuzzleScreen({words, title, author, descriptions}) {
+export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
+    const selectedSet = new Set();
+    const [selected, setSelected] = useState(selectedSet);
+    const [selected2, setSelected2] = useState(0);
     // console.log("Puzzle screen: ", words, descriptions);
     const wordsFlattened = [].concat(...words);
     // console.log("Words flattened:", wordsFlattened);
@@ -19,9 +23,6 @@ export default function PuzzleScreen({words, title, author, descriptions}) {
 
     //Selected map: each position is either selected or not
     //(Key, Val) = (position, isSelected)
-    const selectedSet = new Set();
-    const [selected, setSelected] = useState(selectedSet);
-    const [selected2, setSelected2] = useState(0);
 
     //Answers map (category and its associated words + description)
     //(Key, Val) = (category, wordListAndDescription)
@@ -45,41 +46,53 @@ export default function PuzzleScreen({words, title, author, descriptions}) {
         return return_list;
     }
 
-    // console.log("TEST\t", getAllSelected());
+    console.log("TEST\t", getAllSelected());
 
     function handleSelect(value) {
-        console.log("Before\t", selected);
-        let nextSelected = selected;
-        // if already selected, unselect, else, select if there's not already 4 selected
-        if (nextSelected.has(value)) {
-            nextSelected.delete(value);
-        } else {
-            if (nextSelected.size < 4) {
-                nextSelected.add(value);
+        setSelected(prevSelected => {
+            let nextSelected = new Set(prevSelected);
+            if (nextSelected.has(value)) {
+                nextSelected.delete(value);
+            } else {
+                if (nextSelected.size < 4) {
+                    nextSelected.add(value);
+                }
             }
-        }
-        setSelected(nextSelected);
-        console.log("After\t", selected);
+            console.log("After\t", nextSelected);
+            return nextSelected;
+        });
     }
 
-    function handleSelect2(value) {
-        setSelected2(value);
+    function handleDeselect() {
+        setSelected(new Set());
     }
 
 
     //TODO:
-    // limit amount of words selected to be 4 (and track those 4 words)
+    // Have users submit answers, check if they're right or wrong
+    // if correct: rearrange squares, change colors
+    // if wrong: mistakes--
+    //  if one away: display a message
+    //  else: do an animation or something
 
     return (
         <div className={"puzzle-container"}>
             <div className={"word-grid"}>
-                {console.log("selected map\t", selected)}
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
+                                position={pos}
                                 isSelected={selected.has(pos)}
-                                onClickProp={() => handleSelect(pos)}/>
+                                onClickProp={handleSelect}/>
 
                 ))}
+            </div>
+            <div>
+                <Mistakes count={mistakes}/>
+                <div className={"bottom-buttons"}>
+                    <button>Shuffle</button>
+                    <button onClick={handleDeselect}>Deselect all</button>
+                    <button>Submit</button>
+                </div>
             </div>
         </div>
     )
