@@ -1,10 +1,14 @@
-//either already guessed, or one away
-//if it's correct, it'll just rearrange
-//if it's not one away, it'll just wiggle and you'll see mistakes remaining decrease
-export default function AnswerFeedback() {
-    return (
-        <div>
+//flag is 0 for one away
+//flag is 1 for already guessed
+//only appear (return stuff) if prop show is true
+export default function AnswerFeedback({flag, show}) {
+    const text = (flag === 0) ? "One away..." : "Already guessed!"
 
-        </div>
-    )
+    if (show) {
+        return (
+            <div>
+                {text}
+            </div>
+        )
+    }
 }

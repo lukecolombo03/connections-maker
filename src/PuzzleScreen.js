@@ -1,28 +1,21 @@
 import React, {useState} from "react";
 import WordSquare from "./WordSquare";
 import Mistakes from "./Mistakes";
+import AnswerFeedback from "./AnswerFeedback";
 //TODO: do positioning in CreateScreen, pass that here
 //NOTE: WORDS AREN'T NECESSARILY UNIQUE
 export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
-    const selectedSet = new Set();
-    const [selected, setSelected] = useState(selectedSet);
-    const [selected2, setSelected2] = useState(0);
-    // console.log("Puzzle screen: ", words, descriptions);
-    const wordsFlattened = [].concat(...words);
-    // console.log("Words flattened:", wordsFlattened);
-
     //Position map: every square index (position) has an associated word
     //(Key, Val) = (position, word)
+    const wordsFlattened = [].concat(...words);
     const positionMap = new Map();
     for (let i = 0; i < wordsFlattened.length; i++) {
         positionMap.set(i, wordsFlattened[i]);
     }
     const [positions, setPositions] = useState(positionMap);
-    console.log("position map\t", positions);
-    console.log("test\t", [...positions.keys()])
 
-    //Selected map: each position is either selected or not
-    //(Key, Val) = (position, isSelected)
+    //Selected set: the positions of all squares that are selected (highlighted)
+    const [selected, setSelected] = useState(new Set());
 
     //Answers map (category and its associated words + description)
     //(Key, Val) = (category, wordListAndDescription)
@@ -34,19 +27,17 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     };
     const [answers, setAnswers] = useState(answersMap);
 
-    // console.log("answers map\t", answers);
+    const [showFeedback, setShowFeedback] = useState(false);
+    const [showEndScreen, setShowEndScreen] = useState(false);
 
-    function getAllSelected() {
-        let return_list = [];
-        for (const item of Object.keys(selected)) {
-            if (selected[item] === true) {
-                return_list.push(item);
-            }
-        }
-        return return_list;
+    //TODO: learn how to display a component when user clicks a button
+    function handleSubmit() {
+        //give user feedback if it's wrong
+        setShowFeedback(true);
+        //deselect all
+        setSelected(new Set());
     }
 
-    console.log("TEST\t", getAllSelected());
 
     function handleSelect(value) {
         setSelected(prevSelected => {
@@ -77,6 +68,7 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
 
     return (
         <div className={"puzzle-container"}>
+            <AnswerFeedback show={showFeedback}/>
             <div className={"word-grid"}>
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
@@ -91,7 +83,7 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
                 <div className={"bottom-buttons"}>
                     <button>Shuffle</button>
                     <button onClick={handleDeselect}>Deselect all</button>
-                    <button>Submit</button>
+                    <button onClick={handleSubmit}>Submit</button>
                 </div>
             </div>
         </div>
