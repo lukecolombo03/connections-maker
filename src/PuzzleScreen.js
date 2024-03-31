@@ -5,6 +5,7 @@ import AnswerFeedback from "./AnswerFeedback";
 //TODO: do positioning in CreateScreen, pass that here
 //NOTE: WORDS AREN'T NECESSARILY UNIQUE
 export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
+    console.log(words, author, title, descriptions, mistakes);
     /**
      * Position map: every square index (position) has an associated word
      * (Key, Val) = (position, word)
@@ -76,10 +77,14 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     //  else: do an animation or something
 
     return (
-        <div className={"puzzle-container"}>
+        <div className={"puzzle"}>
+            <div className={"title-cont"}>
+                <span className={"title"}>{title}</span>
+                <span className={"author"}>{(author !== "" ? "By" : "")} {" "} {author}</span>
+            </div>
             <AnswerFeedback show={showFeedback}/>
             <div className={"word-grid"}>
-                {[...positions.keys()].map(pos => (
+            {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
                                 position={pos}
                                 isSelected={selected.has(pos)}

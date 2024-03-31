@@ -22,7 +22,7 @@ code {
   font-size: 50px;
 }
 
-.main-div {
+.create-screen {
   display: inline-flex;
   flex-direction: row;
   gap: 120px;
@@ -30,10 +30,20 @@ code {
   width: 100%;
 }
 
-.puzzle-container {
+.puzzle {
   display: block flex;
   flex-direction: column;
-  gap: 25px;
+}
+
+.word-add {
+  display: block flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+
+  /*border: 2px solid blue;*/
+  width: 30%;
+  margin-bottom: 30px;
 }
 
 .word-grid {
@@ -41,6 +51,7 @@ code {
   flex-flow: row wrap;
   /*border: 2px solid pink;*/
   width: 600px;
+  margin-bottom: 30px;
 }
 
 .square {
@@ -55,17 +66,6 @@ code {
   border-radius: 5px;
   /*padding: 0px;*/
   text-align: center;
-}
-
-.word-add {
-  display: block flex;
-  flex-direction: column;
-  gap: 40px;
-  justify-content: center;
-
-  /*border: 2px solid blue;*/
-  width: 30%;
-  margin-bottom: 30px;
 }
 
 .input-panel {
@@ -122,6 +122,22 @@ code {
 .mistakes {
   display: block flex;
   flex-direction: row;
+}
+
+.title-cont {
+  display: block flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.title {
+  font-size: 40px;
+}
+
+.author {
+  font-size: 16px;
 }
 
 

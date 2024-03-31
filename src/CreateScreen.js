@@ -4,27 +4,12 @@ import WordSquare from "./WordSquare";
 //TODO: make sure rows of CategoryAddPanels and Squares line up
 //TODO: let users drag squares around to rearrange them
 export default function CreateScreen({
-                                         yellowInput,
-                                         setYellowInput,
-                                         yellowDesc,
-                                         setYellowDesc,
-                                         greenInput,
-                                         setGreenInput,
-                                         greenDesc,
-                                         setGreenDesc,
-                                         blueInput,
-                                         setBlueInput,
-                                         blueDesc,
-                                         setBlueDesc,
-                                         purpleInput,
-                                         setPurpleInput,
-                                         purpleDesc,
-                                         setPurpleDesc,
-                                         setScreen,
-                                         allWords,
-                                         parseInput,
-                                         mistakes,
-                                         setMistakes
+                                         yellowInput, setYellowInput, yellowDesc, setYellowDesc,
+                                         greenInput, setGreenInput, greenDesc, setGreenDesc,
+                                         blueInput, setBlueInput, blueDesc, setBlueDesc,
+                                         purpleInput, setPurpleInput, purpleDesc, setPurpleDesc,
+                                         setScreen, allWords, parseInput, mistakes, setMistakes,
+                                         title, setTitle, author, setAuthor
                                      }) {
 
     //checks all information to make sure it's ok to generate a puzzle
@@ -71,13 +56,15 @@ export default function CreateScreen({
         setPurpleDesc("fourth");
         setScreen(1);
         setMistakes(4);
+        setTitle("What is this, puzzle city?");
+        setAuthor("Your mom");
         prepareForGenerate(true);
     }
 
     return (
         <div>
             <h1 className={"title"}>Create a Puzzle</h1>
-            <div className={"main-div"}>
+            <div className={"create-screen"}>
                 <div className={"word-add"}>
                     <UserInputPanel
                         wordInput={yellowInput} setUserInput={setYellowInput} descInput={yellowDesc}
@@ -97,6 +84,24 @@ export default function CreateScreen({
                             <input type="number" value={mistakes}
                                    onChange={event => {
                                        setMistakes(event.target.value)
+                                   }}/>
+                        </label>
+                    </form>
+                    <form>
+                        <label>
+                            Title: {" "}
+                            <input type="text" value={title}
+                                   onChange={event => {
+                                       setTitle(event.target.value)
+                                   }}/>
+                        </label>
+                    </form>
+                    <form>
+                        <label>
+                            Author: {" "}
+                            <input type="text" value={author}
+                                   onChange={event => {
+                                       setAuthor(event.target.value)
                                    }}/>
                         </label>
                     </form>
