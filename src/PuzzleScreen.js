@@ -5,8 +5,11 @@ import AnswerFeedback from "./AnswerFeedback";
 //TODO: do positioning in CreateScreen, pass that here
 //NOTE: WORDS AREN'T NECESSARILY UNIQUE
 export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
-    //Position map: every square index (position) has an associated word
-    //(Key, Val) = (position, word)
+    /**
+     * Position map: every square index (position) has an associated word
+     * (Key, Val) = (position, word)
+     * @type {*[]}
+     */
     const wordsFlattened = [].concat(...words);
     const positionMap = new Map();
     for (let i = 0; i < wordsFlattened.length; i++) {
@@ -14,12 +17,17 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     }
     const [positions, setPositions] = useState(positionMap);
 
-    //Selected set: the positions of all squares that are selected (highlighted)
+    /**
+     * Selected set: the positions of all squares that are selected (highlighted)
+     */
     const [selected, setSelected] = useState(new Set());
 
-    //Answers map (category and its associated words + description)
-    //(Key, Val) = (category, wordListAndDescription)
-    //Note: hardcoding it to be the basic 4 colors, could change in the future
+    /**
+     * Answers map (category and its associated words + description)
+     * (Key, Val) = (category, wordListAndDescription)
+     * Note: hardcoding it to be the basic 4 colors, could change in the future
+     * @type {{green: *, blue: *, yellow: *, purple: *}}
+     */
     const answersMap = {
         "yellow": words[0].concat(descriptions[0]),
         "green": words[1].concat(descriptions[1]), "blue": words[2].concat(descriptions[2]),
@@ -27,17 +35,18 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     };
     const [answers, setAnswers] = useState(answersMap);
 
+    /**
+     * Whether to show various components
+     */
     const [showFeedback, setShowFeedback] = useState(false);
     const [showEndScreen, setShowEndScreen] = useState(false);
 
-    //TODO: learn how to display a component when user clicks a button
     function handleSubmit() {
         //give user feedback if it's wrong
         setShowFeedback(true);
         //deselect all
         setSelected(new Set());
     }
-
 
     function handleSelect(value) {
         setSelected(prevSelected => {
