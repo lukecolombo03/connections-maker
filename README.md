@@ -1,5 +1,3 @@
-testing ignore this
-testing more
 # TO TEST:
 
 ### `npm start`
