@@ -6,7 +6,7 @@ export default function AnswerFeedback({flag, show}) {
 
     if (show) {
         return (
-            <div>
+            <div className={"answer-feedback"}>
                 {text}
             </div>
         )

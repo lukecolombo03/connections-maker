@@ -5,7 +5,7 @@ import AnswerFeedback from "./AnswerFeedback";
 //TODO: do positioning in CreateScreen, pass that here
 //NOTE: WORDS AREN'T NECESSARILY UNIQUE
 export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
-    console.log(words, author, title, descriptions, mistakes);
+    // console.log(words, author, title, descriptions, mistakes);
     /**
      * Position map: every square index (position) has an associated word
      * (Key, Val) = (position, word)
@@ -42,9 +42,21 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     const [showFeedback, setShowFeedback] = useState(false);
     const [showEndScreen, setShowEndScreen] = useState(false);
 
+    /**
+     * Whether to make the submit/deselect buttons clickable
+     * @type {boolean}
+     */
+    let readyToSubmit = (selected.size === 4);
+    let readyToDeselect = (selected.size > 0);
+
     function handleSubmit() {
         //give user feedback if it's wrong
         setShowFeedback(true);
+        //check if guess is right or wrong
+        const all_answers = [...Object.values(answers).map(list => list.slice(0,4))];
+        //TODO: selected is indices instead of words, need to map all_answers to indices so they match
+        let correct = (selected in all_answers);
+        console.log("ALL ANSWERS", all_answers, selected, (selected in all_answers));
         //deselect all
         setSelected(new Set());
     }
@@ -59,7 +71,7 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
                     nextSelected.add(value);
                 }
             }
-            console.log("After\t", nextSelected);
+            // console.log("After\t", nextSelected);
             return nextSelected;
         });
     }
@@ -77,27 +89,28 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     //  else: do an animation or something
 
     return (
-        <div className={"puzzle"}>
+        <div className={"puzzle-cont"}>
             <div className={"title-cont"}>
                 <span className={"title"}>{title}</span>
                 <span className={"author"}>{(author !== "" ? "By" : "")} {" "} {author}</span>
             </div>
             <AnswerFeedback show={showFeedback}/>
             <div className={"word-grid"}>
-            {[...positions.keys()].map(pos => (
+                {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
                                 position={pos}
                                 isSelected={selected.has(pos)}
                                 onClickProp={handleSelect}/>
-
-                ))}
+                    ))}
             </div>
-            <div>
+            <div className={"puzzle-bottom"}>
                 <Mistakes count={mistakes}/>
                 <div className={"bottom-buttons"}>
-                    <button>Shuffle</button>
-                    <button onClick={handleDeselect}>Deselect all</button>
-                    <button onClick={handleSubmit}>Submit</button>
+                    <button className={"puzzle-button"}>Shuffle</button>
+                    <button disabled={!readyToDeselect} onClick={handleDeselect}
+                            className={"puzzle-button"}>Deselect all</button>
+                    <button disabled={!readyToSubmit} onClick={handleSubmit}
+                            className={`puzzle-button submit-button`}>Submit</button>
                 </div>
             </div>
         </div>

@@ -64,7 +64,7 @@ export default function CreateScreen({
     return (
         <div>
             <h1 className={"title"}>Create a Puzzle</h1>
-            <div className={"create-screen"}>
+            <div className={"create-cont"}>
                 <div className={"word-add"}>
                     <UserInputPanel
                         wordInput={yellowInput} setUserInput={setYellowInput} descInput={yellowDesc}

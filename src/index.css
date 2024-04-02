@@ -22,7 +22,7 @@ code {
   font-size: 50px;
 }
 
-.create-screen {
+.create-cont {
   display: inline-flex;
   flex-direction: row;
   gap: 120px;
@@ -30,9 +30,11 @@ code {
   width: 100%;
 }
 
-.puzzle {
-  display: block flex;
-  flex-direction: column;
+.puzzle-cont {
+  display: block;
+  width: fit-content;
+  align-self: baseline;
+  margin: auto;
 }
 
 .word-add {
@@ -50,19 +52,19 @@ code {
   display: block flex;
   flex-flow: row wrap;
   /*border: 2px solid pink;*/
-  width: 600px;
+  width: 650px;
   margin-bottom: 30px;
 }
 
 .square {
-  background: #dadace;
+  background: #e3e3da;
   color: black;
   border: none;
   font-size: 24px;
   font-weight: bold;
-  height: 60px;
-  width: 120px;
-  margin: 10px;
+  height: 70px;
+  width: 140px;
+  margin: 5px;
   border-radius: 5px;
   /*padding: 0px;*/
   text-align: center;
@@ -138,6 +140,39 @@ code {
 
 .author {
   font-size: 16px;
+}
+
+.puzzle-bottom {
+  /*border: 2px solid red;*/
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: baseline;
+}
+
+.bottom-buttons {
+  display: flex;
+  flex-direction: row;
+  /*border: 2px solid pink;*/
+  width: 100%;
+}
+
+.puzzle-button {
+  border-radius: 5px;
+}
+
+.submit-button {
+  width: 50%;
+}
+
+.answer-feedback {
+  background-color: #676262;
+  color: white;
+  width: 200px;
+  height: 50px;
+  text-align: center;
+  margin: auto;
+  padding: 15px;
 }
 
 
