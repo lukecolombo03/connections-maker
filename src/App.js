@@ -31,8 +31,8 @@ function App() {
     //which screen is to be displayed: create screen or puzzle screen
     const [screen, setScreen] = useState(0);
 
-    //How many mistakes the user has. If null, they have unlimited mistakes.
-    const [mistakes, setMistakes] = useState(null);
+    //How many mistakes the user has. If undefined, they have unlimited mistakes.
+    const [mistakes, setMistakes] = useState(undefined);
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");

@@ -17,6 +17,7 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
         positionMap.set(i, wordsFlattened[i]);
     }
     const [positions, setPositions] = useState(positionMap);
+    console.log(positions);
 
     /**
      * Selected set: the positions of all squares that are selected (highlighted)
@@ -35,6 +36,7 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
         "purple": words[3].concat(descriptions[3])
     };
     const [answers, setAnswers] = useState(answersMap);
+    console.log(answers);
 
     /**
      * Whether to show various components
@@ -50,13 +52,15 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     let readyToDeselect = (selected.size > 0);
 
     function handleSubmit() {
-        //give user feedback if it's wrong
-        setShowFeedback(true);
         //check if guess is right or wrong
         const all_answers = [...Object.values(answers).map(list => list.slice(0,4))];
         //TODO: selected is indices instead of words, need to map all_answers to indices so they match
         let correct = (selected in all_answers);
         console.log("ALL ANSWERS", all_answers, selected, (selected in all_answers));
+        //give user feedback if it's wrong
+        if (!correct) {
+            setShowFeedback(true);
+        }
         //deselect all
         setSelected(new Set());
     }

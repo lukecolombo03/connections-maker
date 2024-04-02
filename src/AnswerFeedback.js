@@ -2,7 +2,13 @@
 //flag is 1 for already guessed
 //only appear (return stuff) if prop show is true
 export default function AnswerFeedback({flag, show}) {
-    const text = (flag === 0) ? "One away..." : "Already guessed!"
+    let text;
+    if (flag === 0) {
+        text = "One away...";
+    }
+    if (flag === 1) {
+        text = "Already guessed!";
+    }
 
     if (show) {
         return (

@@ -10,7 +10,7 @@ export default function UserInputPanel({wordInput, setUserInput, descInput, setD
                 <label> Answers (Comma-separated) {" "}
                     <input type={"text"} value={wordInput}
                            onChange={event => {
-                               setUserInput(event.target.value.toUpperCase())
+                               setUserInput(event.target.value.trim().toUpperCase())
                            }}>
                     </input>
                 </label>
@@ -19,7 +19,7 @@ export default function UserInputPanel({wordInput, setUserInput, descInput, setD
                 <label>Description {" "}
                     <input type="text" value={descInput}
                            onChange={event => {
-                               setDescInput(event.target.value.toUpperCase())
+                               setDescInput(event.target.value.trim().toUpperCase())
                            }}/></label>
             </form>
         </div>

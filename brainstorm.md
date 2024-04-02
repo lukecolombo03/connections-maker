@@ -6,7 +6,6 @@
 - Don't let user guess something they've already guessed
 
 ### Code
-- Store into set each element when clicked, remove when reclicked
 - Set compare to see if submission matches answers, store guesses and set compare to each to 
 say if same
 - Size of guesses set -> # of guesses used
@@ -17,3 +16,4 @@ say if same
 rest as the remaining “words” elements.
 - If correct answer submitted for a color, add (index of/Id of) that color to “correct” array, 
 remove the guess’ words from “words” and recompute the grid (useEffect)
+- Let people send the link to others

@@ -8,9 +8,11 @@ export default function Mistakes({count}) {
         return arr;
     }
 
+    const text = (count !== undefined) ? "Mistakes remaining: " : "";
+
     return (
         <div className={"mistakes"}>
-            Mistakes remaining: {getList(count)}
+            {text}{getList(count)}
         </div>
 
     )
