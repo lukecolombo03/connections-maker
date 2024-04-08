@@ -37,6 +37,9 @@ function App() {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
 
+    const [answers, setAnswers] = useState({"yellow": null, "green": null,
+                                               "blue": null, "purple": null});
+
     let content;
     if (screen === 0) {
         content = <CreateScreen yellowInput={yellowInput} setYellowInput={setYellowInput}
@@ -50,13 +53,13 @@ function App() {
                                 setScreen={setScreen} allWords={allWords} parseInput={parseInput}
                                 mistakes={mistakes} setMistakes={setMistakes}
                                 title={title} author={author} setTitle={setTitle}
-                                setAuthor={setAuthor}/>
+                                setAuthor={setAuthor} answers={answers} setAnswers={setAnswers}/>
     }
     if (screen === 1) {
         content = <PuzzleScreen words={allWords}
                                 descriptions={[yellowDesc, greenDesc, blueDesc, purpleDesc]}
                                 mistakes={mistakes} setMistakes={setMistakes} title={title}
-                                author={author}/>
+                                author={author} answers={answers} setAnswers={setAnswers}/>
     }
 
     return (

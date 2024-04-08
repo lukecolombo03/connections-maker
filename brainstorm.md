@@ -4,6 +4,7 @@
 - Let user drag squares around to rearrange them
     - Shouldn't affect the categories
 - Don't let user guess something they've already guessed
+- Be able to have more than the normal 4 categories?
 
 ### Code
 - Set compare to see if submission matches answers, store guesses and set compare to each to 

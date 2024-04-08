@@ -2,10 +2,17 @@ import React, {useState} from "react";
 import WordSquare from "./WordSquare";
 import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
-//TODO: do positioning in CreateScreen, pass that here
-//NOTE: WORDS AREN'T NECESSARILY UNIQUE
-export default function PuzzleScreen({words, title, author, descriptions, mistakes, setMistakes}) {
-    // console.log(words, author, title, descriptions, mistakes);
+//TODO:
+// 1) Shuffle the WordSquares
+// 2) Make a shuffle button
+// 3) Let users drag squares around to rearrange them
+// 4) After correct answer, rearrange those squares, show the description and color, make
+// them unclickable
+// 5) After incorrect answer, do some animation
+export default function PuzzleScreen({
+                                         words, title, author, descriptions, mistakes, setMistakes,
+                                         answers, setAnswers
+                                     }) {
     /**
      * Position map: every square index (position) has an associated word
      * (Key, Val) = (position, word)
@@ -17,26 +24,12 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
         positionMap.set(i, wordsFlattened[i]);
     }
     const [positions, setPositions] = useState(positionMap);
-    console.log(positions);
+    // console.log(positions);
 
     /**
      * Selected set: the positions of all squares that are selected (highlighted)
      */
     const [selected, setSelected] = useState(new Set());
-
-    /**
-     * Answers map (category and its associated words + description)
-     * (Key, Val) = (category, wordListAndDescription)
-     * Note: hardcoding it to be the basic 4 colors, could change in the future
-     * @type {{green: *, blue: *, yellow: *, purple: *}}
-     */
-    const answersMap = {
-        "yellow": words[0].concat(descriptions[0]),
-        "green": words[1].concat(descriptions[1]), "blue": words[2].concat(descriptions[2]),
-        "purple": words[3].concat(descriptions[3])
-    };
-    const [answers, setAnswers] = useState(answersMap);
-    console.log(answers);
 
     /**
      * Whether to show various components
@@ -51,15 +44,45 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
     let readyToSubmit = (selected.size === 4);
     let readyToDeselect = (selected.size > 0);
 
+    function compareArrays(a, b) {
+        if (a === b) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
+        if (a.length !== b.length) {
+            return false;
+        }
+        a = a.toSorted((one, two) => one === two);
+        b = b.toSorted((one, two) => one === two);
+        // console.log(a, b);
+        for (let i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     function handleSubmit() {
+        console.log(answers);
         //check if guess is right or wrong
-        const all_answers = [...Object.values(answers).map(list => list.slice(0,4))];
-        //TODO: selected is indices instead of words, need to map all_answers to indices so they match
-        let correct = (selected in all_answers);
-        console.log("ALL ANSWERS", all_answers, selected, (selected in all_answers));
-        //give user feedback if it's wrong
+        const all_answers = [...Object.values(answers).map(list => list.slice(0, 4))];
+        const selectedList = Array.from(selected);
+        let correct = all_answers.some(item => {
+            return compareArrays(item, selectedList);
+        });
+        console.log(correct, all_answers);
         if (!correct) {
             setShowFeedback(true);
+            setMistakes(prev => {
+                return prev - 1;
+            });
+        }
+        //TODO: give user feedback when they get an answer correct
+        else {
+            console.log("Correct!");
         }
         //deselect all
         setSelected(new Set());
@@ -84,7 +107,6 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
         setSelected(new Set());
     }
 
-
     //TODO:
     // Have users submit answers, check if they're right or wrong
     // if correct: rearrange squares, change colors
@@ -105,16 +127,18 @@ export default function PuzzleScreen({words, title, author, descriptions, mistak
                                 position={pos}
                                 isSelected={selected.has(pos)}
                                 onClickProp={handleSelect}/>
-                    ))}
+                ))}
             </div>
             <div className={"puzzle-bottom"}>
                 <Mistakes count={mistakes}/>
                 <div className={"bottom-buttons"}>
                     <button className={"puzzle-button"}>Shuffle</button>
                     <button disabled={!readyToDeselect} onClick={handleDeselect}
-                            className={"puzzle-button"}>Deselect all</button>
+                            className={"puzzle-button"}>Deselect all
+                    </button>
                     <button disabled={!readyToSubmit} onClick={handleSubmit}
-                            className={`puzzle-button submit-button`}>Submit</button>
+                            className={`puzzle-button submit-button`}>Submit
+                    </button>
                 </div>
             </div>
         </div>
