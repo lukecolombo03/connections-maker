@@ -49,7 +49,7 @@ export default function PuzzleScreen({
     let readyToSubmit = (selected.size === 4);
     let readyToDeselect = (selected.size > 0);
 
-
+    //TODO: make sure the sorting part actually works...
     // Helper function for handleSubmit()
     function compareArrays(a, b) {
         if (a === b) {
@@ -98,9 +98,9 @@ export default function PuzzleScreen({
             setShowFeedback(true);
             setVisible(true);
             //TODO: Check if its one away
-            // if (!alreadyGuessed) {
-            //     setAnswerFeedbackFlag(0);
-            // }
+            if (!alreadyGuessed) {
+                setAnswerFeedbackFlag(0);
+            }
             setMistakes(prev => {
                 return prev - 1;
             });
