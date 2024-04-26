@@ -18,3 +18,18 @@ rest as the remaining “words” elements.
 - If correct answer submitted for a color, add (index of/Id of) that color to “correct” array, 
 remove the guess’ words from “words” and recompute the grid (useEffect)
 - Let people send the link to others
+
+### Overall To-Dos:
+- Gameplay:
+    - Rearrange squares when user gets answer correct
+    - Detect if a guess has already been guessed
+- Aesthetics:
+  - Redo layout of Create Screen
+  - Add animation when user gets a guess wrong
+  - Set a timer on the "one away" message
+- Other features:
+  - Let user drag squares to rearrange on the Create Screen
+  - Make a link to be able to send puzzles to others
+  - Make shuffle button work
+  - Ability to add more than 4 categories
+  - Ability to change color scheme of categories

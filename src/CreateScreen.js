@@ -124,6 +124,8 @@ export default function CreateScreen({
             <h1 className={"title"}>Create a Puzzle</h1>
             <div className={"create-cont"}>
                 <div className={"word-add"}>
+                    <CreateForms mistakes={mistakes} setMistakes={setMistakes} title={title}
+                                 setTitle={setTitle} author={author} setAuthor={setAuthor}/>
                     <UserInputPanel
                         wordInput={yellowInput} setUserInput={setYellowInput} descInput={yellowDesc}
                         setDescInput={setYellowDesc} color={"yellow"}/>
@@ -136,10 +138,8 @@ export default function CreateScreen({
                     <UserInputPanel
                         wordInput={purpleInput} setUserInput={setPurpleInput} descInput={purpleDesc}
                         setDescInput={setPurpleDesc} color={"purple"}/>
-                    <CreateForms mistakes={mistakes} setMistakes={setMistakes} title={title}
-                                 setTitle={setTitle} author={author} setAuthor={setAuthor}/>
                 </div>
-                <div className={"word-grid"}>
+                <div className={"create-word-grid"}>
                     {arrayToRender.map((val, i) => (<WordSquare key={i} text={val}/>))}
                 </div>
             </div>

@@ -7,20 +7,22 @@ export default function UserInputPanel({wordInput, setUserInput, descInput, setD
         // fancy string formatting stuff (called literals I think)
         <div className={`${color} input-panel`}>
             <form>
-                <label> Answers (Comma-separated) {" "}
-                    <input type={"text"} value={wordInput}
+                <h3>Title</h3>
+                <label className={"label"}>
+                    <input className={"title-label"} type="text" value={descInput}
+                           onChange={event => {
+                               setDescInput(event.target.value.trim().toUpperCase())
+                           }}/></label>
+            </form>
+            <form>
+                <h3>Answers (Comma separated)</h3>
+                <label>
+                    <input className={"item-label"} type={"text"} value={wordInput}
                            onChange={event => {
                                setUserInput(event.target.value.trim().toUpperCase())
                            }}>
                     </input>
                 </label>
-            </form>
-            <form>
-                <label>Description {" "}
-                    <input type="text" value={descInput}
-                           onChange={event => {
-                               setDescInput(event.target.value.trim().toUpperCase())
-                           }}/></label>
             </form>
         </div>
     )
