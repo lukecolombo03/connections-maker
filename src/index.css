@@ -3,11 +3,14 @@
   --green: #a0c35a;
   --blue: #b0c4ef;
   --purple: #ba81c5;
+  --background: #f6f5f5;
+  --highlight: #5a594e;
+  --square-height: 75px;
 }
 
 body {
-  margin: 0px;
-  background: #f6f5f5;
+  margin: 0;
+  background: var(--background);
   padding: 50px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -58,7 +61,11 @@ code {
 
 h3 {
   /*border: 2px solid black;*/
-  margin: 5px 0px 5px 0px;
+  margin: 5px 0 5px 0px;
+}
+
+h4 {
+  margin: 2px 0 2px 0;
 }
 
 .title-label {
@@ -70,32 +77,57 @@ h3 {
   width: 85%;
 }
 
-/*.title-label:focus {*/
-/*  border: 3px solid #555;*/
-/*  background-color: blue;*/
-/*}*/
+.word-grid-cont {
+  display: flex;
+  flex-flow: column;
+  /*border: 2px solid red;*/
+  height: fit-content;
+}
 
-.create-word-grid {
+.word-grid {
   display: block flex;
   flex-flow: row wrap;
+  justify-content: center;
   /*border: 2px solid red;*/
-  width: 650px;
-  height: 300px;
+  width: calc(9 * var(--square-height));
+  height: fit-content;
   margin-bottom: 30px;
+}
+
+.drag-text {
+  align-self: center;
+  font-size: 18px;
+}
+
+.shuffle-button {
+  width: 25%;
+  height: 35px;
+  margin: auto;
+  /*border: 2px solid red;*/
+  font-size: 18px;
+  border-radius: 30px;
+  background-color: var(--background);
 }
 
 .square {
   background: #e3e3da;
   color: black;
   border: none;
-  font-size: 2.2vw;
+  font-size: 1.5vw;
   font-weight: bold;
-  height: 80px;
-  width: 160px;
-  margin: 5px;
-  border-radius: 5px;
-  /*padding: 0px;*/
-  text-align: center;
+  height: var(--square-height);
+  width: calc(2 * var(--square-height));
+  border-radius: 6px;
+  margin: 4px;
+  justify-content: center;
+  cursor: pointer; /*Makes the cursor different when you hover*/
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.selected {
+  background: var(--highlight);
+  color: white;
 }
 
 .yellow {
@@ -124,18 +156,8 @@ h3 {
   /*border: 2px solid gold;*/
 }
 
-.puzzle-word-grid {
-  display: block flex;
-  flex-flow: row wrap;
-  /*border: 2px solid red;*/
-  width: 700px;
-  /*height: 300px;*/
-  margin-bottom: 30px;
-}
-
-.selected {
-  background: #707065;
-  color: white;
+.puzzle-grid {
+  margin-bottom: 60px;
 }
 
 .puzzle-container {
@@ -156,7 +178,7 @@ h3 {
 .dot {
   height: 20px;
   width: 20px;
-  background-color: #676262;
+  background-color: #5a594e;
   border-radius: 50%;
   display: inline-block;
   margin-left: 5px;
@@ -192,30 +214,68 @@ h3 {
   justify-items: baseline;
 }
 
+.mistakes {
+  margin: auto;
+}
+
 .bottom-buttons {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  gap: 10px;
   /*border: 2px solid pink;*/
+  margin: 18px auto auto;
   width: 100%;
 }
 
 .puzzle-button {
-  border-radius: 5px;
+  border-radius: 35px;
+  border-width: 1px;
+  background-color: var(--background);
+  width: 12%;
+  height: 50px;
+  line-height: 18px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.submit-button {
-  width: 50%;
+.puzzle-button:enabled {
+  cursor: pointer;
+}
+
+.deselect {
+  width: 18%;
+}
+
+.submit:enabled {
+  background-color: black;
+  color: var(--background);
 }
 
 .answer-feedback {
   background-color: #676262;
-  color: white;
+  color: var(--background);
   width: 200px;
   height: 50px;
   text-align: center;
   margin: auto;
   padding: 15px;
   transition: color 3s;
+}
+
+.solved-display {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  text-transform: uppercase;
+  /*border: 2px solid blue;*/
+  /*24 because it's 3 * gap*/
+  width: calc(8 * var(--square-height) + 24px);
+  margin: 5px auto;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  height: var(--square-height);
 }
 
 

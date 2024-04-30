@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import UserInputPanel from "./UserInputPanel";
 import WordSquare from "./WordSquare";
 import CreateForms from "./CreateForms";
-//TODO: make sure rows of CategoryAddPanels and Squares line up
 //TODO: let users drag squares around to rearrange them
 export default function CreateScreen({
                                          yellowInput, setYellowInput, yellowDesc, setYellowDesc,
@@ -12,16 +11,13 @@ export default function CreateScreen({
                                          setScreen, allWords, parseInput, mistakes, setMistakes,
                                          title, setTitle, author, setAuthor, answers, setAnswers
                                      }) {
-    //TODO: have a map of (int, String), representing positions and their corresponding words.
-    // Pass to PuzzleScreen a map of (String, List<int>) representing the categories and the
-    // correct words (as positions) in them.
-    // To check answer correctness, compare 'selected' (set of indices) to this map.
-    //first four should be parseInput(yellowInput)[0,4]
-
+    //(Key, value) = (Int, String)
+    //Represents each position (one of sixteen indices) and its corresponding word
     const wordMap = new Map();
-    let count = 0;
 
+    // Updates the word map every time the user types in a new word
     function updateWordMap() {
+        let count = 0;
         while (count < 16) {
             if (count < 4) {
                 wordMap.set(count, parseInput(yellowInput)[count]);
@@ -35,12 +31,9 @@ export default function CreateScreen({
             count++;
         }
     }
-
     updateWordMap();
 
-    // console.log("Word map:\t", wordMap, [...wordMap.values()]);
-
-    //make the keys the descriptions, the values the answers (as positions from the keys of wordMap)
+    //Make the keys the descriptions, the values the answers (as positions from the keys of wordMap)
     function updateAnswers() {
         const nextAnswers = {...answers};
         nextAnswers.yellow = [...wordMap.keys()].slice(0, 4);
@@ -112,7 +105,7 @@ export default function CreateScreen({
     const shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
-    let arrayToRender = shuffle([...wordMap.values()]);
+    let arrayToRender = [...wordMap.values()];
 
     //TODO: make this call the parent to ask for re-render - have to use state somehow I think
     function shuffleWords() {
@@ -139,12 +132,17 @@ export default function CreateScreen({
                         wordInput={purpleInput} setUserInput={setPurpleInput} descInput={purpleDesc}
                         setDescInput={setPurpleDesc} color={"purple"}/>
                 </div>
-                <div className={"create-word-grid"}>
-                    {arrayToRender.map((val, i) => (<WordSquare key={i} text={val}/>))}
+                <div className={"word-grid-cont"}>
+                    <p className={"drag-text"}>Drag squares around to rearrange, or click the
+                        shuffle button</p>
+                    <div className={"word-grid"}>
+                        {arrayToRender.map(
+                            (val, i) => (<WordSquare key={i} text={val} visible={true}/>))}
+                    </div>
+                    <button onClick={() => shuffleWords()} className={"shuffle-button"}>Shuffle</button>
                 </div>
             </div>
-            <button onClick={() => shuffleWords()}>Shuffle: {" "}</button>
-            <button onClick={() => prepareForGenerate()}>Generate:</button>
+            <button onClick={() => prepareForGenerate()}>Generate Puzzle</button>
             <button onClick={() => autofill()}>For Luke: click here to autofill + generate</button>
         </div>
     )

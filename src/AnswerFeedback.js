@@ -26,6 +26,9 @@ export default function AnswerFeedback({flag, show, visible, setVisible}) {
     if (flag === 2) {
         text = "Already guessed!";
     }
+    if (flag === 3) {
+        text = "Solid";
+    }
 
     if (show) {
         return (

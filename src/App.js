@@ -15,7 +15,7 @@ function App() {
     let allWords = [yellowInput, greenInput, blueInput, purpleInput].map(
         innerList => parseInput(innerList));
 
-    // pares user's input so the commas separate it into 4 words
+    // parse user's input so the commas separate it into 4 words
     // color param should be one of the state variables
     function parseInput(color) {
         // splits user input by comma, maps it to uppercase
@@ -63,7 +63,7 @@ function App() {
     }
 
     return (
-        <div>
+        <div className={"app-cont"}>
             {content}
         </div>
 

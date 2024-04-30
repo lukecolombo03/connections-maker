@@ -22,6 +22,10 @@ remove the guess’ words from “words” and recompute the grid (useEffect)
 ### Overall To-Dos:
 - Gameplay:
     - Rearrange squares when user gets answer correct
+      - Idea:
+      - Have each square id have an attribute marking whether or not its solved, only display the solved ones
+      - When user gets a correct guess, change that attribute of corresponding square ids
+      - Create a component for a solved category
     - Detect if a guess has already been guessed
 - Aesthetics:
   - Redo layout of Create Screen
@@ -33,3 +37,4 @@ remove the guess’ words from “words” and recompute the grid (useEffect)
   - Make shuffle button work
   - Ability to add more than 4 categories
   - Ability to change color scheme of categories
+  - Add a dark mode toggle button

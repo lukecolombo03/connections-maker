@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import WordSquare from "./WordSquare";
 import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
+import SolvedDisplay from "./SolvedDisplay";
 //TODO:
 // 1) Shuffle the WordSquares
 // 2) Make a shuffle button
@@ -11,10 +12,11 @@ import AnswerFeedback from "./AnswerFeedback";
 // 6) Let users drag squares around to rearrange them
 export default function PuzzleScreen({
                                          words, title, author, descriptions, mistakes, setMistakes,
-                                         answers, setAnswers
+                                         answers
                                      }) {
+    // console.log(words, descriptions, answers);
     /**
-     * Position map: every square index (position) has an associated word
+     * Position map: every square index (position) has an associated word, and a status (visible or not)
      * (Key, Val) = (position, word)
      * @type {*[]}
      */
@@ -25,6 +27,10 @@ export default function PuzzleScreen({
     }
     const [positions, setPositions] = useState(positionMap);
 
+    /**
+     * The positions of all squares that have already been solved (removed from board)
+     */
+    const [solved, setSolved] = useState(new Set());
 
     /**
      * Selected set: the positions of all squares that are selected (highlighted)
@@ -49,8 +55,9 @@ export default function PuzzleScreen({
     let readyToSubmit = (selected.size === 4);
     let readyToDeselect = (selected.size > 0);
 
-    //TODO: make sure the sorting part actually works...
+
     // Helper function for handleSubmit()
+    // Compares two arrays and returns true if every element of B is in A
     function compareArrays(a, b) {
         if (a === b) {
             return true;
@@ -61,9 +68,10 @@ export default function PuzzleScreen({
         if (a.length !== b.length) {
             return false;
         }
-        a = a.toSorted((one, two) => one === two);
-        b = b.toSorted((one, two) => one === two);
-        // console.log(a, b);
+        // console.log("Before\t", a, b);
+        a.sort();
+        b.sort();
+        // console.log("After\t", a, b);
         for (let i = 0; i < a.length; ++i) {
             if (a[i] !== b[i]) {
                 return false;
@@ -72,43 +80,62 @@ export default function PuzzleScreen({
         return true;
     }
 
+    /**
+     * Whether the answer feedback should be visible
+     */
     const [visible, setVisible] = useState(true);
 
+    /**
+     * All the code for when a user submits a guess
+     */
     function handleSubmit() {
         // Make variables for the user's guess and all correct answers
         const all_answers = [...Object.values(answers).map(list => list.slice(0, 4))];
         const guess = Array.from(selected);
-        // Check if guess is already guessed
+        // Check if guess is already guessed: if it is, don't process this guess
         setGuesses([...guesses, guess]);
+        // (will be True if some elements of A are the same as B)
         let alreadyGuessed = guesses.some(item => {
             return compareArrays(item, guess);
         });
         if (alreadyGuessed) {
-            console.log("TRUE");
             setShowFeedback(true);
             setVisible(true);
             setAnswerFeedbackFlag(2);
         }
-        //check if guess is in the list of all answers
-        let correct = all_answers.some(item => {
-            return compareArrays(item, guess);
-        });
-        // Handle incorrect guess
-        if (!correct) {
-            setShowFeedback(true);
-            setVisible(true);
-            //TODO: Check if its one away
-            if (!alreadyGuessed) {
-                setAnswerFeedbackFlag(0);
-            }
-            setMistakes(prev => {
-                return prev - 1;
-            });
-        }
-        // Handle correct guess
-        //TODO: give user feedback when they get an answer correct
+        // Process the guess, can either be correct or incorrect
         else {
-            console.log("Correct!");
+            //check if guess is in the list of all answers
+            let correct = all_answers.some(item => {
+                return compareArrays(item, guess);
+            });
+            // Handle incorrect guess
+            if (!correct) {
+                setShowFeedback(true);
+                setVisible(true);
+                //TODO: Check if its one away
+                if (!alreadyGuessed) {
+                    setAnswerFeedbackFlag(0);
+                }
+                setMistakes(prev => {
+                    return prev - 1;
+                });
+            }
+            // Handle correct guess
+            //TODO: give user feedback when they get an answer correct
+                // 1: Compare guess to list of answers to figure out which category this is for
+                // (need mapping of answer list to category)
+                // 2: Send child the category color, name, and words
+                // Need to link the positions to
+            else {
+                console.log("Correct!");
+                for (let item of guess) {
+                    setSolved(prevState => prevState.add(item));
+                }
+                console.log(answers.yellow.some(item => {
+                    return compareArrays(item, guess);
+                }))
+            }
         }
         //deselect all
         setSelected(new Set());
@@ -141,12 +168,14 @@ export default function PuzzleScreen({
             </div>
             <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={visible}
                             setVisible={setVisible}/>
-            <div className={"puzzle-word-grid"}>
+            <SolvedDisplay words={words} title={descriptions[0]} color={"blue"}/>
+            <div className={"word-grid puzzle-grid"}>
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
                                 position={pos}
                                 isSelected={selected.has(pos)}
-                                onClickProp={handleSelect}/>
+                                onClickProp={handleSelect}
+                                visible={!solved.has(pos)}/>
                 ))}
             </div>
             <div className={"puzzle-bottom"}>
@@ -154,10 +183,10 @@ export default function PuzzleScreen({
                 <div className={"bottom-buttons"}>
                     <button className={"puzzle-button"}>Shuffle</button>
                     <button disabled={!readyToDeselect} onClick={handleDeselect}
-                            className={"puzzle-button"}>Deselect all
+                            className={"puzzle-button deselect"}>Deselect All
                     </button>
                     <button disabled={!readyToSubmit} onClick={handleSubmit}
-                            className={`puzzle-button submit-button`}>Submit
+                            className={"puzzle-button submit"}>Submit
                     </button>
                 </div>
             </div>
