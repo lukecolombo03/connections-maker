@@ -37,8 +37,12 @@ function App() {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
 
+    // Mapping of category color to answers (as lists of indices)
     const [answers, setAnswers] = useState({"yellow": null, "green": null,
                                                "blue": null, "purple": null});
+    // Mapping of category color to descriptions (as Strings)
+    const [descriptions, setDescriptions] = useState({"yellow": null, "green": null,
+                                                         "blue": null, "purple": null});
 
     let content;
     if (screen === 0) {

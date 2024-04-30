@@ -27,6 +27,8 @@ remove the guess’ words from “words” and recompute the grid (useEffect)
       - When user gets a correct guess, change that attribute of corresponding square ids
       - Create a component for a solved category
     - Detect if a guess has already been guessed
+    - Make an end screen
+      - Track guess history
 - Aesthetics:
   - Redo layout of Create Screen
   - Add animation when user gets a guess wrong

@@ -14,9 +14,10 @@ export default function PuzzleScreen({
                                          words, title, author, descriptions, mistakes, setMistakes,
                                          answers
                                      }) {
-    // console.log(words, descriptions, answers);
+    // console.log(descriptions, answers);
     /**
-     * Position map: every square index (position) has an associated word, and a status (visible or not)
+     * Position map: every square index (position) has an associated word, and a status (visible or
+     * not)
      * (Key, Val) = (position, word)
      * @type {*[]}
      */
@@ -26,11 +27,6 @@ export default function PuzzleScreen({
         positionMap.set(i, wordsFlattened[i]);
     }
     const [positions, setPositions] = useState(positionMap);
-
-    /**
-     * The positions of all squares that have already been solved (removed from board)
-     */
-    const [solved, setSolved] = useState(new Set());
 
     /**
      * Selected set: the positions of all squares that are selected (highlighted)
@@ -55,9 +51,15 @@ export default function PuzzleScreen({
     let readyToSubmit = (selected.size === 4);
     let readyToDeselect = (selected.size > 0);
 
+    /**
+     * Whether the answer feedback should be visible
+     */
+    const [visible, setVisible] = useState(true);
 
-    // Helper function for handleSubmit()
-    // Compares two arrays and returns true if every element of B is in A
+    /**
+     Helper function for handleSubmit()
+     Compares two arrays and returns true if every element of B is in A
+     **/
     function compareArrays(a, b) {
         if (a === b) {
             return true;
@@ -79,11 +81,6 @@ export default function PuzzleScreen({
         }
         return true;
     }
-
-    /**
-     * Whether the answer feedback should be visible
-     */
-    const [visible, setVisible] = useState(true);
 
     /**
      * All the code for when a user submits a guess
@@ -111,36 +108,87 @@ export default function PuzzleScreen({
             });
             // Handle incorrect guess
             if (!correct) {
-                setShowFeedback(true);
-                setVisible(true);
-                //TODO: Check if its one away
-                if (!alreadyGuessed) {
-                    setAnswerFeedbackFlag(0);
-                }
-                setMistakes(prev => {
-                    return prev - 1;
-                });
+                processIncorrectGuess(alreadyGuessed);
             }
             // Handle correct guess
-            //TODO: give user feedback when they get an answer correct
-                // 1: Compare guess to list of answers to figure out which category this is for
-                // (need mapping of answer list to category)
-                // 2: Send child the category color, name, and words
-                // Need to link the positions to
             else {
-                console.log("Correct!");
-                for (let item of guess) {
-                    setSolved(prevState => prevState.add(item));
-                }
-                console.log(answers.yellow.some(item => {
-                    return compareArrays(item, guess);
-                }))
+                processCorrectGuess(guess);
             }
         }
         //deselect all
         setSelected(new Set());
     }
 
+    /**
+     * Helper function for handleSubmit
+     */
+    function processIncorrectGuess(alreadyGuessed) {
+        setShowFeedback(true);
+        setVisible(true);
+        //TODO: Check if its one away
+        if (!alreadyGuessed) {
+            setAnswerFeedbackFlag(0);
+        }
+        setMistakes(prev => {
+            return prev - 1;
+        });
+    }
+
+    //TODO: Idea! Have 4 SolvedDisplay components originally, with all 3 pieces of info, then once
+    // a user gets a correct guess we just find out what color category it was for, and make the
+    // corresponding component visible.
+        // Only problem: making sure they display in the order that user guesses them in (could probably
+        // use CSS to fix)
+    // Other to do: make a toggle so that when a SolvedDisplay is visible, it's corresponding words
+    // are automatically invisible
+        // Should have an ID for each SolvedDisplay, then an attribute for each WordSquare that
+        // indicates which SolvedDisplay it corresponds to
+
+    // Tracks the color, description, and words for each category, along with whether it's solved
+    let state =
+        {"yellow": {"words": answers["yellow"], "solved": false, "desc": descriptions[0]},
+            "green": {"words": answers["green"], "solved": false, "desc": descriptions[1]},
+            "blue": {"words": answers["blue"], "solved": false, "desc": descriptions[2]},
+            "purple": {"words": answers["purple"], "solved": false, "desc": descriptions[3]}};
+    const [solvedTracker, setSolvedTracker] = useState(state);
+    // console.log(solvedTracker["yellow"]["words"]) ;
+
+    // Given a position, determine if its corresponding category has been solved or not
+    function blah(pos) {
+        for (let color in solvedTracker) {
+
+        }
+    }
+    blah(0);
+
+    //TODO:
+    // 1) Given a position, determine if it has been solved
+    // 2) Given a position, remove it from the solvedTracker
+    // 3) Given a color, determine if it has been solved
+
+    /**
+     * Helper function for handleSubmit
+     * After correct guess do two things:
+     *  1) Remove the guessed words
+     *  2) Update the solvedTracker so it displays the SolvedDisplay
+     */
+    function processCorrectGuess(guess) {
+        for (let color in solvedTracker) {
+            let correctAnswer = solvedTracker[color]["words"];
+            // If we have found the category that this guess belongs to
+            if (compareArrays(guess, correctAnswer)) {
+                // Update solvedTracker to reflect that this color is solved
+                setSolvedTracker(prevState => {
+                    prevState[color]["solved"] = true;
+                })
+            }
+        }
+    }
+
+    /**
+     * Handle the user clicking on a square
+     * @param value
+     */
     function handleSelect(value) {
         setSelected(prevSelected => {
             let nextSelected = new Set(prevSelected);
@@ -151,7 +199,6 @@ export default function PuzzleScreen({
                     nextSelected.add(value);
                 }
             }
-            // console.log("After\t", nextSelected);
             return nextSelected;
         });
     }
@@ -168,14 +215,21 @@ export default function PuzzleScreen({
             </div>
             <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={visible}
                             setVisible={setVisible}/>
-            <SolvedDisplay words={words} title={descriptions[0]} color={"blue"}/>
+            <SolvedDisplay words={words[0]} title={descriptions[0]} color={"yellow"} visible={true}
+                           id={0}/>
+            <SolvedDisplay words={words[1]} title={descriptions[1]} color={"green"} visible={true}
+                           id={1}/>
+            <SolvedDisplay words={words[2]} title={descriptions[2]} color={"blue"} visible={true}
+                           id={2}/>
+            <SolvedDisplay words={words[3]} title={descriptions[3]} color={"purple"} visible={true}
+                           id={3}/>
             <div className={"word-grid puzzle-grid"}>
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
                                 position={pos}
                                 isSelected={selected.has(pos)}
                                 onClickProp={handleSelect}
-                                visible={!solved.has(pos)}/>
+                                visible={!(new Set(Object.values(answers)).has(pos))}/>
                 ))}
             </div>
             <div className={"puzzle-bottom"}>

@@ -1,12 +1,22 @@
-export default function SolvedDisplay({title, words, color}) {
+export default function SolvedDisplay({title, words, color, visible, id}) {
 
-    //TODO: remove the comma from the last word
-    return (
-        <div className={`solved-display ${color}`}>
-            <h4>{title}</h4>
-            <div className={"solved-words"}>{words.map((word, index) => (
-                <span key={index}>{word}{", "}</span>
-            ))}</div>
-        </div>
-    )
+    // List of correct words in this category to display
+    // Adds commas in between words
+    const text = words.map((word, index) => {
+        if (index === 3) {
+            return word;
+        }
+        else {
+            return word + ", ";
+        }});
+
+    if (visible) {
+        return (
+            <div className={`solved-display ${color}`}>
+                <h4>{title}</h4>
+                <div className={"solved-words"}>{text}</div>
+            </div>
+        )
+    }
+
 }
