@@ -151,20 +151,38 @@ export default function PuzzleScreen({
             "blue": {"words": answers["blue"], "solved": false, "desc": descriptions[2]},
             "purple": {"words": answers["purple"], "solved": false, "desc": descriptions[3]}};
     const [solvedTracker, setSolvedTracker] = useState(state);
-    // console.log(solvedTracker["yellow"]["words"]) ;
-
-    // Given a position, determine if its corresponding category has been solved or not
-    function blah(pos) {
-        for (let color in solvedTracker) {
-
-        }
-    }
-    blah(0);
 
     //TODO:
     // 1) Given a position, determine if it has been solved
     // 2) Given a position, remove it from the solvedTracker
     // 3) Given a color, determine if it has been solved
+
+
+    // Given a position, determine if its corresponding category has been solved or not
+    // True => this square has been solved => should not be displayed
+    // False => square has not been solved => should be displayed
+    function isSquareSolved(pos) {
+        // should only loop through the colors that aren't solved
+        for (let color in solvedTracker) {
+            // If this category contains this position, return the category's status (solved or not)
+            if (pos in solvedTracker[color].words) {
+                console.log(pos, solvedTracker[color]);
+                return solvedTracker[color].solved;
+            }
+        }
+    }
+    // console.log(isSquareSolved(4));
+
+    // Given a position, return its corresponding color
+    function indexToColor(pos) {
+        for (let color in solvedTracker) {
+            if (new Set(solvedTracker[color].words).has(pos)) {
+                console.log(solvedTracker[color].words);
+                return color;
+            }
+        }
+    }
+
 
     /**
      * Helper function for handleSubmit
@@ -178,12 +196,17 @@ export default function PuzzleScreen({
             // If we have found the category that this guess belongs to
             if (compareArrays(guess, correctAnswer)) {
                 // Update solvedTracker to reflect that this color is solved
+                const nextColor = {...solvedTracker[color], solved: true};
+                const nextTracker = {...solvedTracker, [color]: nextColor};
                 setSolvedTracker(prevState => {
-                    prevState[color]["solved"] = true;
-                })
+                    return nextTracker;
+                });
             }
         }
+        console.log(solvedTracker);
     }
+
+    // console.log(solvedTracker);
 
     /**
      * Handle the user clicking on a square
@@ -215,13 +238,13 @@ export default function PuzzleScreen({
             </div>
             <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={visible}
                             setVisible={setVisible}/>
-            <SolvedDisplay words={words[0]} title={descriptions[0]} color={"yellow"} visible={true}
+            <SolvedDisplay words={words[0]} title={descriptions[0]} color={"yellow"} visible={solvedTracker.yellow.solved}
                            id={0}/>
-            <SolvedDisplay words={words[1]} title={descriptions[1]} color={"green"} visible={true}
+            <SolvedDisplay words={words[1]} title={descriptions[1]} color={"green"} visible={solvedTracker.green.solved}
                            id={1}/>
-            <SolvedDisplay words={words[2]} title={descriptions[2]} color={"blue"} visible={true}
+            <SolvedDisplay words={words[2]} title={descriptions[2]} color={"blue"} visible={solvedTracker.blue.solved}
                            id={2}/>
-            <SolvedDisplay words={words[3]} title={descriptions[3]} color={"purple"} visible={true}
+            <SolvedDisplay words={words[3]} title={descriptions[3]} color={"purple"} visible={solvedTracker.purple.solved}
                            id={3}/>
             <div className={"word-grid puzzle-grid"}>
                 {[...positions.keys()].map(pos => (
@@ -229,7 +252,7 @@ export default function PuzzleScreen({
                                 position={pos}
                                 isSelected={selected.has(pos)}
                                 onClickProp={handleSelect}
-                                visible={!(new Set(Object.values(answers)).has(pos))}/>
+                                visible={!solvedTracker[indexToColor(pos)].solved}/>
                 ))}
             </div>
             <div className={"puzzle-bottom"}>
