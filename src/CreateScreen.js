@@ -35,15 +35,13 @@ export default function CreateScreen({
 
     //Make the keys the descriptions, the values the answers (as positions from the keys of wordMap)
     function updateAnswers() {
-        const nextAnswers = {...answers};
-        nextAnswers.yellow = [...wordMap.keys()].slice(0, 4);
-        nextAnswers.green = [...wordMap.keys()].slice(4, 8);
-        nextAnswers.blue = [...wordMap.keys()].slice(8, 12);
-        nextAnswers.purple = [...wordMap.keys()].slice(12, 16);
-        //This doesn't update it right away but does update it by the time it's passed to
-        // PuzzleScreen. No clue why
+        const nextAnswers = {
+            "yellow": {"words": [...wordMap.keys()].slice(0, 4), "solved": false, "desc": yellowDesc},
+            "green": {"words": [...wordMap.keys()].slice(4, 8), "solved": false, "desc": greenDesc},
+            "blue": {"words": [...wordMap.keys()].slice(8, 12), "solved": false, "desc": blueDesc},
+            "purple": {"words": [...wordMap.keys()].slice(12, 16), "solved": false, "desc": purpleDesc}
+        };
         setAnswers(nextAnswers);
-        // console.log(nextAnswers);
     }
 
     //checks all information to make sure it's ok to generate a puzzle
@@ -81,30 +79,27 @@ export default function CreateScreen({
 
     //making it easier to test PuzzleScreen
     function autofill() {
+        const nextAnswers = {
+            "yellow": {"words": [0, 1, 2, 3], "solved": false, "desc": "yellow category"},
+            "green": {"words": [4, 5, 6, 7], "solved": false, "desc": "green category"},
+            "blue": {"words": [8, 9, 10, 11], "solved": false, "desc": "blue category"},
+            "purple": {"words": [12, 13, 14, 15], "solved": false, "desc": "purple category"}
+        };
         setYellowInput("a,b,c,d");
         setGreenInput("e,f,g,h");
         setBlueInput("i,j,k,l");
         setPurpleInput("m,n,o,p");
-        setYellowDesc("first");
-        setGreenDesc("second");
-        setBlueDesc("third");
-        setPurpleDesc("fourth");
-        setScreen(1);
+        setAnswers(nextAnswers);
         setMistakes(4);
         setTitle("What is this, puzzle city?");
         setAuthor("Your mom");
-        prepareForGenerate(true);
-        setAnswers({
-                       yellow: [0, 1, 2, 3],
-                       green: [4, 5, 6, 7],
-                       blue: [8, 9, 10, 11],
-                       purple: [12, 13, 14, 15]
-                   });
+        setScreen(1);
     }
-    //TODO: shuffle this less... it's going crazy rn
+
     const shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
+    //TODO: add shuffle here (took it away bc it was going crazy)
     let arrayToRender = [...wordMap.values()];
 
     //TODO: make this call the parent to ask for re-render - have to use state somehow I think
