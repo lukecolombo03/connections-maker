@@ -4,10 +4,9 @@ import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
 import SolvedDisplay from "./SolvedDisplay";
 //TODO:
-// 1) Shuffle the WordSquares
+// 1) Add an end screen
+//      will need to track guess history
 // 2) Make a shuffle button
-// 4) After incorrect answer, do some animation
-// 6) Let users drag squares around to rearrange them
 export default function PuzzleScreen({
                                          words, title, author, descriptions, mistakes, setMistakes,
                                          answers
@@ -39,7 +38,7 @@ export default function PuzzleScreen({
     /**
      * A list of past guesses, so the user can't guess the same thing twice
      */
-    const [guesses, setGuesses] = useState([]);
+    const [pastGuesses, setPastGuesses] = useState([]);
 
     /**
      * Whether to make the submit/deselect buttons clickable
@@ -89,9 +88,9 @@ export default function PuzzleScreen({
         // const all_answers = [...Object.values(answers).map(list => list.slice(0, 4))];
         const guess = Array.from(selected);
         // Check if guess is already guessed: if it is, don't process this guess
-        setGuesses([...guesses, guess]);
+        setPastGuesses([...pastGuesses, guess]);
         // (will be True if some elements of A are the same as B)
-        let alreadyGuessed = guesses.some(item => {
+        let alreadyGuessed = pastGuesses.some(item => {
             return compareArrays(item, guess);
         });
         if (alreadyGuessed) {
@@ -114,8 +113,6 @@ export default function PuzzleScreen({
                 processCorrectGuess(guess);
             }
         }
-        //deselect all
-        setSelected(new Set());
     }
 
     /**
@@ -131,8 +128,8 @@ export default function PuzzleScreen({
         setMistakes(prev => {
             return prev - 1;
         });
+        console.log(pastGuesses);
     }
-
 
     const [solvedTracker, setSolvedTracker] = useState({...answers});
     // console.log(solvedTracker);
@@ -173,6 +170,8 @@ export default function PuzzleScreen({
                 setSolvedOrder(nextOrder);
             }
         }
+        //deselect all
+        setSelected(new Set());
         console.log(solvedTracker, solvedOrder);
     }
 

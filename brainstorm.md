@@ -21,14 +21,10 @@ remove the guess’ words from “words” and recompute the grid (useEffect)
 
 ### Overall To-Dos:
 - Gameplay:
-    - Rearrange squares when user gets answer correct
-      - Idea:
-      - Have each square id have an attribute marking whether or not its solved, only display the solved ones
-      - When user gets a correct guess, change that attribute of corresponding square ids
-      - Create a component for a solved category
-    - Detect if a guess has already been guessed
     - Make an end screen
       - Track guess history
+    - When user loses, show the correct answers before the end screen
+    - Add animation after incorrect guess
 - Aesthetics:
   - Redo layout of Create Screen
   - Add animation when user gets a guess wrong
