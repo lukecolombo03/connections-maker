@@ -149,20 +149,19 @@ h4 {
 /* --- PUZZLE SCREEN --- */
 
 .puzzle-cont {
-  display: block;
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  gap: 0;
   width: fit-content;
   align-self: baseline;
+  /*align-items: center;*/
   margin: auto;
   /*border: 2px solid gold;*/
 }
 
 .puzzle-grid {
   margin-bottom: 60px;
-}
-
-.puzzle-container {
-  display: block flex;
-  align-content: center;
 }
 
 .row {
@@ -271,11 +270,95 @@ h4 {
   /*border: 2px solid blue;*/
   /*24 because it's 3 * gap*/
   width: calc(8 * var(--square-height) + 24px);
-  margin: 5px auto;
+  margin: 3px auto;
   border-radius: 6px;
   align-items: center;
   justify-content: center;
   height: var(--square-height);
+}
+
+.results-cont {
+  position: absolute;
+  left: calc(var(--square-height) + 30px);
+  top: var(--square-height);
+  width: 70%;
+  height: calc(var(--square-height) * 5);
+  background-color: var(--background);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 25px;
+  gap: 10px;
+  z-index: 1;
+  /*border: 2px solid red;*/
+  box-shadow: 0 3px 12px -1px rgba(0, 0, 0, .3);
+}
+
+.back-to-puzzle {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--background);
+  font-size: 16px;
+}
+
+.x-button {
+  font-size: 18px;
+}
+
+.results-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 26px;
+}
+
+.results-subtitle {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.results-buttons {
+  display: flex;
+  flex-flow: row;
+  width: fit-content;
+  margin: auto;
+  gap: 10px;
+}
+
+.result-button {
+  background-color: black;
+  color: var(--background);
+  border-radius: 35px;
+  border-width: 1px;
+  /*width: 12%;*/
+  padding: 15px;
+  height: 50px;
+  line-height: 18px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/*TODO: make this a cool color (just chose this based of actual connections)*/
+.new-puzzle-button {
+  background-color: #f7da21;
+  color: black;
+}
+
+.view-results-button {
+  background-color: var(--background);
+  color: black;
+  border-radius: 35px;
+  border-width: 1px;
+  padding: 15px;
+  height: 50px;
+  width: fit-content;
+  margin: 15px auto auto;
+  line-height: 18px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 

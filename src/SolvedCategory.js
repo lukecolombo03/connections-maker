@@ -1,5 +1,5 @@
-export default function SolvedDisplay({title, words, color, visible}) {
-
+export default function SolvedCategory({title, words, color, visible}) {
+    console.log(words)
     // List of correct words in this category to display
     // Adds commas in between words
     const text = words.map((word, index) => {

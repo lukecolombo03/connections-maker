@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import WordSquare from "./WordSquare";
 import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
-import SolvedDisplay from "./SolvedDisplay";
+import SolvedCategory from "./SolvedCategory";
+import Results from "./Results";
+import PuzzleBottom from "./PuzzleBottom";
+import ResultsButton from "./ResultsButton";
 //TODO:
 // 1) Add an end screen
 //      will need to track guess history
@@ -50,7 +53,17 @@ export default function PuzzleScreen({
     /**
      * Whether the answer feedback should be visible
      */
-    const [visible, setVisible] = useState(true);
+    const [answerFeedbackVisible, setAnswerFeedbackVisible] = useState(true);
+
+    /**
+     * Whether the bottom buttons should be visible or not
+     */
+    const [bottomVisible, setBottomVisible] = useState(false);
+
+    /**
+     * Whether the results screen should be visible or not
+     */
+    const [resultsVisible, setResultsVisible] = useState(false);
 
     /**
      Helper function for handleSubmit()
@@ -66,10 +79,8 @@ export default function PuzzleScreen({
         if (a.length !== b.length) {
             return false;
         }
-        // console.log("Before\t", a, b);
         a.sort();
         b.sort();
-        // console.log("After\t", a, b);
         for (let i = 0; i < a.length; ++i) {
             if (a[i] !== b[i]) {
                 return false;
@@ -83,7 +94,6 @@ export default function PuzzleScreen({
      */
     function handleSubmit() {
         // Make variables for the user's guess and all correct answers
-        //TODO: Clean this up it has hella nesting
         const all_answers = Object.keys(answers).map(color => answers[color].words);
         // const all_answers = [...Object.values(answers).map(list => list.slice(0, 4))];
         const guess = Array.from(selected);
@@ -95,7 +105,7 @@ export default function PuzzleScreen({
         });
         if (alreadyGuessed) {
             setShowFeedback(true);
-            setVisible(true);
+            setAnswerFeedbackVisible(true);
             setAnswerFeedbackFlag(2);
         }
         // Process the guess, can either be correct or incorrect
@@ -120,7 +130,7 @@ export default function PuzzleScreen({
      */
     function processIncorrectGuess(alreadyGuessed) {
         setShowFeedback(true);
-        setVisible(true);
+        setAnswerFeedbackVisible(true);
         //TODO: Check if its one away
         if (!alreadyGuessed) {
             setAnswerFeedbackFlag(0);
@@ -128,26 +138,27 @@ export default function PuzzleScreen({
         setMistakes(prev => {
             return prev - 1;
         });
-        console.log(pastGuesses);
+        // User has lost the game
+        if (mistakes === 0) {
+            setBottomVisible(true);
+            setResultsVisible(true);
+        }
+        // console.log(pastGuesses);
     }
 
     const [solvedTracker, setSolvedTracker] = useState({...answers});
-    // console.log(solvedTracker);
     // Tracks the order in which the colors were solved, to display the SolvedDisplays correctly
     const [solvedOrder, setSolvedOrder] = useState([]);
 
     // Given a position, return its corresponding color
     function indexToColor(pos) {
         for (let color in solvedTracker) {
-            // console.log(solvedTracker[color].words.includes(pos), solvedTracker[color].words)
             // This is the corresponding color if it has the position in it
             if (solvedTracker[color].words.includes(pos)) {
                 return color;
             }
-            // console.log(color);
         }
     }
-    // console.log(indexToColor(4));
 
     /**
      * Helper function for handleSubmit
@@ -168,14 +179,17 @@ export default function PuzzleScreen({
                 });
                 const nextOrder = [...solvedOrder, color];
                 setSolvedOrder(nextOrder);
+                // User has won the game
+                // Made this equal to 3 because 4 didn't work for some reason... honestly very confused
+                if (solvedOrder.length === 3) {
+                    setBottomVisible(true);
+                    setResultsVisible(true);
+                }
             }
         }
         //deselect all
         setSelected(new Set());
-        console.log(solvedTracker, solvedOrder);
     }
-
-    // console.log(solvedTracker);
 
     /**
      * Handle the user clicking on a square
@@ -199,18 +213,24 @@ export default function PuzzleScreen({
         setSelected(new Set());
     }
 
+    console.log(positions)
     return (
         <div className={"puzzle-cont"}>
             <div className={"title-cont"}>
                 <span className={"puzzle-title"}>{title}</span>
                 <span className={"author"}>{(author !== "" ? "By" : "")} {" "} {author}</span>
             </div>
-            <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={visible}
-                            setVisible={setVisible}/>
+            <Results visible={resultsVisible} setVisible={setResultsVisible} result={0}
+                     author={author} pastGuesses={pastGuesses}/>
+            <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={answerFeedbackVisible}
+                            setVisible={setAnswerFeedbackVisible}/>
             {solvedOrder.map((color, index) => (
-                <SolvedDisplay words={answers[color].words} color={color} title={answers[color].desc}
-                               visible={solvedTracker[color].solved} key={index}/>
+                <SolvedCategory key={index}
+                                words={answers[color].words.map(index => positions.get(index))}
+                                color={color}
+                                title={answers[color].desc} visible={solvedTracker[color].solved}/>
             ))}
+            <ResultsButton selfVisible={bottomVisible} setResultsVisible={setResultsVisible}/>
             <div className={"word-grid puzzle-grid"}>
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
@@ -220,18 +240,9 @@ export default function PuzzleScreen({
                                 visible={!solvedTracker[indexToColor(pos)].solved}/>
                 ))}
             </div>
-            <div className={"puzzle-bottom"}>
-                <Mistakes count={mistakes}/>
-                <div className={"bottom-buttons"}>
-                    <button className={"puzzle-button"}>Shuffle</button>
-                    <button disabled={!readyToDeselect} onClick={handleDeselect}
-                            className={"puzzle-button deselect"}>Deselect All
-                    </button>
-                    <button disabled={!readyToSubmit} onClick={handleSubmit}
-                            className={"puzzle-button submit"}>Submit
-                    </button>
-                </div>
-            </div>
+            <PuzzleBottom readyToDeselect={readyToDeselect} handleDeselect={handleDeselect}
+                          readyToSubmit={readyToSubmit} handleSubmit={handleSubmit}
+                          mistakes={mistakes} visible={!bottomVisible}/>
         </div>
     )
 }
