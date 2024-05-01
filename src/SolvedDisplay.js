@@ -1,4 +1,4 @@
-export default function SolvedDisplay({title, words, color, visible, id}) {
+export default function SolvedDisplay({title, words, color, visible}) {
 
     // List of correct words in this category to display
     // Adds commas in between words

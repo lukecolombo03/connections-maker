@@ -1,7 +1,5 @@
 import './App.css';
 import {useState} from "react";
-import UserInputPanel from "./UserInputPanel";
-import WordSquare from "./WordSquare";
 import PuzzleScreen from "./PuzzleScreen";
 import CreateScreen from "./CreateScreen";
 
@@ -37,12 +35,10 @@ function App() {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
 
-    // Mapping of category color to answers (as lists of indices)
+
+    // Track the words (as indices), description, and status (solved/not) for each color
     const [answers, setAnswers] = useState({"yellow": null, "green": null,
                                                "blue": null, "purple": null});
-    // Mapping of category color to descriptions (as Strings)
-    const [descriptions, setDescriptions] = useState({"yellow": null, "green": null,
-                                                         "blue": null, "purple": null});
 
     let content;
     if (screen === 0) {

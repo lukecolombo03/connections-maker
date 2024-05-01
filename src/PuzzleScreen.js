@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import WordSquare from "./WordSquare";
 import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
@@ -133,25 +133,11 @@ export default function PuzzleScreen({
         });
     }
 
-    //TODO: Idea! Have 4 SolvedDisplay components originally, with all 3 pieces of info, then once
-    // a user gets a correct guess we just find out what color category it was for, and make the
-    // corresponding component visible.
-        // Only problem: making sure they display in the order that user guesses them in (could probably
-        // use CSS to fix)
-    // Other to do: make a toggle so that when a SolvedDisplay is visible, it's corresponding words
-    // are automatically invisible
-        // Should have an ID for each SolvedDisplay, then an attribute for each WordSquare that
-        // indicates which SolvedDisplay it corresponds to
 
-    // Tracks the color, description, and words for each category, along with whether it's solved
     const [solvedTracker, setSolvedTracker] = useState({...answers});
     // console.log(solvedTracker);
     // Tracks the order in which the colors were solved, to display the SolvedDisplays correctly
     const [solvedOrder, setSolvedOrder] = useState([]);
-    //TODO:
-    // 1) Given a position, determine if it has been solved
-    // 2) Given a position, remove it from the solvedTracker
-    // 3) Given a color, determine if it has been solved
 
     // Given a position, return its corresponding color
     function indexToColor(pos) {
