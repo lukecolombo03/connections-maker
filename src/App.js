@@ -17,8 +17,7 @@ function App() {
     // color param should be one of the state variables
     function parseInput(color) {
         // splits user input by comma, maps it to uppercase
-        let splitText = color.split(",").map(word => word.toUpperCase());
-        return splitText;
+        return color.split(",").map(word => word.toUpperCase());
     }
 
     const [yellowDesc, setYellowDesc] = useState("");

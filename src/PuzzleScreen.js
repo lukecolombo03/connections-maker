@@ -20,7 +20,6 @@ export default function PuzzleScreen({words, title, author, mistakes, setMistake
     for (let i = 0; i < wordsFlattened.length; i++) {
         positionMap.set(i, wordsFlattened[i]);
     }
-    const [positions, setPositions] = useState(positionMap);
     /**
      * Selected set: the positions of all squares that are selected (highlighted)
      */
@@ -223,13 +222,13 @@ export default function PuzzleScreen({words, title, author, mistakes, setMistake
                             setVisible={setAnswerFeedbackVisible}/>
             {solvedOrder.map((color, index) => (
                 <SolvedCategory key={index}
-                                words={answers[color].words.map(index => positions.get(index))}
+                                words={answers[color].words.map(index => positionMap.get(index))}
                                 color={color}
                                 title={answers[color].desc} visible={solvedTracker[color].solved}/>
             ))}
             <div className={"word-grid puzzle-grid"}>
-                {[...positions.keys()].map(pos => (
-                    <WordSquare key={pos} text={positions.get(pos)}
+                {[...positionMap.keys()].map(pos => (
+                    <WordSquare key={pos} text={positionMap.get(pos)}
                                 position={pos}
                                 isSelected={selected.has(pos)}
                                 onClickProp={handleSelect}
