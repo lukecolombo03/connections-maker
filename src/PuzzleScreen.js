@@ -29,7 +29,6 @@ export default function PuzzleScreen({words, title, author, mistakes, setMistake
     const [showFeedback, setShowFeedback] = useState(false);
     // The flag on the feedback bar: 0 for nothing, 1 for "one away", 2 for "already guessed"
     const [answerFeedbackFlag, setAnswerFeedbackFlag] = useState(0);
-    const [showEndScreen, setShowEndScreen] = useState(false);
 
     /**
      * A list of past guesses, so the user can't guess the same thing twice
