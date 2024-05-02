@@ -1,4 +1,3 @@
-import {useState} from "react";
 
 // Represents one of the 16 squares for the game board
 export default function WordSquare({text, position, isSelected, onClickProp, visible}) {

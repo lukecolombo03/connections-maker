@@ -57,9 +57,8 @@ function App() {
     }
     if (screen === 1) {
         content = <PuzzleScreen words={allWords}
-                                descriptions={[yellowDesc, greenDesc, blueDesc, purpleDesc]}
                                 mistakes={mistakes} setMistakes={setMistakes} title={title}
-                                author={author} answers={answers} setAnswers={setAnswers}/>
+                                author={author} answers={answers}/>
     }
 
     return (

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import WordSquare from "./WordSquare";
-import Mistakes from "./Mistakes";
 import AnswerFeedback from "./AnswerFeedback";
 import SolvedCategory from "./SolvedCategory";
 import Results from "./Results";
@@ -8,10 +7,7 @@ import PuzzleBottom from "./PuzzleBottom";
 import ResultsButton from "./ResultsButton";
 //TODO:
 // 2) Make a shuffle button
-export default function PuzzleScreen({
-                                         words, title, author, descriptions, mistakes, setMistakes,
-                                         answers
-                                     }) {
+export default function PuzzleScreen({words, title, author, mistakes, setMistakes, answers}) {
     // console.log(answers);
     /**
      * Position map: every square index (position) has an associated word, and a status (visible or
