@@ -1,15 +1,6 @@
 import {useState} from "react";
 
-/**
- * Represents one of 16 squares that has a word in it
- * @param text
- * @param position
- * @param isSelected
- * @param onClickProp
- * @param visible
- * @returns {JSX.Element}
- * @constructor
- */
+// Represents one of the 16 squares for the game board
 export default function WordSquare({text, position, isSelected, onClickProp, visible}) {
     const onClick = () => {
         onClickProp(position);

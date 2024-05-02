@@ -36,3 +36,4 @@ remove the guess’ words from “words” and recompute the grid (useEffect)
   - Ability to add more than 4 categories
   - Ability to change color scheme of categories
   - Add a dark mode toggle button
+  - Have my own custom puzzles that people can play?

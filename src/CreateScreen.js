@@ -48,7 +48,6 @@ export default function CreateScreen({
     //made a no error flag so I could just click one button to test PuzzleScreen
     function prepareForGenerate(noErrorFlag = false) {
         let allDescs = [yellowDesc, greenDesc, blueDesc, purpleDesc];
-        // console.log(allDescs);
         let error = false;
         if (!noErrorFlag) {
             // is there an error?
@@ -60,7 +59,6 @@ export default function CreateScreen({
                     break;
                 }
             }
-            // console.log(allWords);
             //check there's exactly 4 words in each category
             for (let category of allWords) {
                 if (category.length !== 4) {
@@ -132,7 +130,7 @@ export default function CreateScreen({
                         shuffle button</p>
                     <div className={"word-grid"}>
                         {arrayToRender.map(
-                            (val, i) => (<WordSquare key={i} text={val} visible={true}/>))}
+                            (val, i) => (<WordSquare key={i} text={val} visible={true} onClickProp={() => null}/>))}
                     </div>
                     <button onClick={() => shuffleWords()} className={"shuffle-button"}>Shuffle</button>
                 </div>

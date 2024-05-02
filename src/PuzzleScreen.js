@@ -7,8 +7,6 @@ import Results from "./Results";
 import PuzzleBottom from "./PuzzleBottom";
 import ResultsButton from "./ResultsButton";
 //TODO:
-// 1) Add an end screen
-//      will need to track guess history
 // 2) Make a shuffle button
 export default function PuzzleScreen({
                                          words, title, author, descriptions, mistakes, setMistakes,
@@ -213,15 +211,18 @@ export default function PuzzleScreen({
         setSelected(new Set());
     }
 
-    console.log(positions)
+
     return (
         <div className={"puzzle-cont"}>
             <div className={"title-cont"}>
                 <span className={"puzzle-title"}>{title}</span>
                 <span className={"author"}>{(author !== "" ? "By" : "")} {" "} {author}</span>
             </div>
-            <Results visible={resultsVisible} setVisible={setResultsVisible} result={0}
-                     author={author} pastGuesses={pastGuesses}/>
+            <p className={"puzzle-subtitle"}>Create four groups of four!</p>
+            <Results visible={resultsVisible} setVisible={setResultsVisible}
+                     result={(mistakes > 0) ? 0 : 1}
+                     author={author} pastGuesses={pastGuesses} indexToColor={indexToColor}
+                     compareArrays={compareArrays}/>
             <AnswerFeedback show={showFeedback} flag={answerFeedbackFlag} visible={answerFeedbackVisible}
                             setVisible={setAnswerFeedbackVisible}/>
             {solvedOrder.map((color, index) => (
@@ -230,7 +231,6 @@ export default function PuzzleScreen({
                                 color={color}
                                 title={answers[color].desc} visible={solvedTracker[color].solved}/>
             ))}
-            <ResultsButton selfVisible={bottomVisible} setResultsVisible={setResultsVisible}/>
             <div className={"word-grid puzzle-grid"}>
                 {[...positions.keys()].map(pos => (
                     <WordSquare key={pos} text={positions.get(pos)}
@@ -240,6 +240,7 @@ export default function PuzzleScreen({
                                 visible={!solvedTracker[indexToColor(pos)].solved}/>
                 ))}
             </div>
+            <ResultsButton selfVisible={bottomVisible} setResultsVisible={setResultsVisible}/>
             <PuzzleBottom readyToDeselect={readyToDeselect} handleDeselect={handleDeselect}
                           readyToSubmit={readyToSubmit} handleSubmit={handleSubmit}
                           mistakes={mistakes} visible={!bottomVisible}/>

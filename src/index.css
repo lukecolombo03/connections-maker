@@ -61,7 +61,7 @@ code {
 
 h3 {
   /*border: 2px solid black;*/
-  margin: 5px 0 5px 0px;
+  margin: 5px 0 5px 0;
 }
 
 h4 {
@@ -107,6 +107,7 @@ h4 {
   font-size: 18px;
   border-radius: 30px;
   background-color: var(--background);
+  cursor: pointer;
 }
 
 .square {
@@ -154,6 +155,7 @@ h4 {
   flex-flow: column;
   gap: 0;
   width: fit-content;
+  height: fit-content;
   align-self: baseline;
   /*align-items: center;*/
   margin: auto;
@@ -161,7 +163,7 @@ h4 {
 }
 
 .puzzle-grid {
-  margin-bottom: 60px;
+  /*margin-bottom: 60px;*/
 }
 
 .row {
@@ -203,6 +205,11 @@ h4 {
 
 .author {
   font-size: 16px;
+}
+
+.puzzle-subtitle {
+  font-size: 17px;
+  text-align: center;
 }
 
 .puzzle-bottom {
@@ -263,6 +270,7 @@ h4 {
 }
 
 .solved-display {
+  position: static;
   display: flex;
   flex-direction: column;
   font-size: 20px;
@@ -279,10 +287,10 @@ h4 {
 
 .results-cont {
   position: absolute;
-  left: calc(var(--square-height) + 30px);
   top: var(--square-height);
-  width: 70%;
-  height: calc(var(--square-height) * 5);
+  /*If you want to make this smaller it'll be tricky to center it as well*/
+  width: 100%;
+  height: fit-content;
   background-color: var(--background);
   display: flex;
   flex-flow: column;
@@ -331,19 +339,21 @@ h4 {
   background-color: black;
   color: var(--background);
   border-radius: 35px;
-  border-width: 1px;
+  border: none;
   /*width: 12%;*/
   padding: 15px;
   height: 50px;
   line-height: 18px;
   font-size: 15px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /*TODO: make this a cool color (just chose this based of actual connections)*/
 .new-puzzle-button {
   background-color: #f7da21;
   color: black;
+  border: none;
 }
 
 .view-results-button {
@@ -354,11 +364,34 @@ h4 {
   padding: 15px;
   height: 50px;
   width: fit-content;
-  margin: 15px auto auto;
+  margin: auto;
   line-height: 18px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.result-grid {
+  display: flex;
+  flex-flow: row wrap;
+  width: calc(var(--square-height) * 4 * (1 / 1.75) + 5px);
+  height: fit-content;
+  /*border: 2px solid purple;*/
+  row-gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.no-square {
+  /*background-color: blue;*/
+  border: none;
+  /* some fraction the size of WordSquares */
+  height: calc(var(--square-height) / 1.75);
+  width: calc(var(--square-height) / 1.75);
+  border-radius: 6px;
+  margin: 0;
+  justify-content: center;
+  z-index: 1;
 }
 
 
