@@ -99,14 +99,32 @@ h4 {
   font-size: 18px;
 }
 
+.grid-bottom {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
 .shuffle-button {
   width: 25%;
   height: 35px;
   margin: auto;
-  /*border: 2px solid red;*/
+  border: 1px solid black;
   font-size: 18px;
   border-radius: 30px;
   background-color: var(--background);
+  cursor: pointer;
+}
+
+.generate-button {
+  width: 25%;
+  height: 35px;
+  margin: auto;
+  border: 1px;
+  font-size: 18px;
+  border-radius: 30px;
+  background-color: black;
+  color: var(--background);
   cursor: pointer;
 }
 

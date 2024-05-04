@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faX} from '@fortawesome/free-solid-svg-icons'
 import NoWordSquare from "./NoWordSquare";
 // 'result' is a flag, 0 meaning user won, 1 meaning they lost
-export default function Results({visible, result, author, pastGuesses, setVisible, indexToColor, compareArrays}) {
+export default function Results({visible, result, author, pastGuesses, setVisible, indexToColor,
+                                    compareArrays}) {
     let title;
     if (result === 0) {
         title = "Great!"
@@ -34,6 +35,10 @@ export default function Results({visible, result, author, pastGuesses, setVisibl
         }
     }
 
+    function handleNewPuzzleClick() {
+
+    }
+
     // console.log(flattenedGuesses, noDuplicateGuesses, pastGuesses);
     if (visible) {
         return (
@@ -50,7 +55,8 @@ export default function Results({visible, result, author, pastGuesses, setVisibl
                     </div>
                     <div className={"results-buttons"}>
                         <button className={"result-button"}>Share Your Results</button>
-                        <button className={"result-button new-puzzle-button"}>Make Another Puzzle
+                        <button className={"result-button new-puzzle-button"}
+                                onClick={() => handleNewPuzzleClick()}>Make Another Puzzle
                         </button>
                     </div>
                 </div>

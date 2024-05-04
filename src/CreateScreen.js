@@ -94,15 +94,16 @@ export default function CreateScreen({
         setScreen(1);
     }
 
+    // The array of WordSquares that will be rendered
+    const [arrayToRender, setArrayToRender] = useState([...wordMap.values()]);
+
+    // Shuffles the given array
     const shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
-    //TODO: add shuffle here (took it away bc it was going crazy)
-    let arrayToRender = [...wordMap.values()];
 
-    //TODO: make this call the parent to ask for re-render - have to use state somehow I think
     function shuffleWords() {
-        arrayToRender = shuffle([...arrayToRender]);
+        setArrayToRender(shuffle([...arrayToRender]));
     }
 
     return (
@@ -130,12 +131,18 @@ export default function CreateScreen({
                         shuffle button</p>
                     <div className={"word-grid"}>
                         {arrayToRender.map(
-                            (val, i) => (<WordSquare key={i} text={val} visible={true} onClickProp={() => null}/>))}
+                            (val, i) => (<WordSquare key={i} text={val} visible={true}
+                                                     onClickProp={() => null}/>))}
                     </div>
-                    <button onClick={() => shuffleWords()} className={"shuffle-button"}>Shuffle</button>
+                    <div className={"grid-bottom"}>
+                        <button onClick={() => shuffleWords()} className={"shuffle-button"}>Shuffle
+                        </button>
+                        <button onClick={() => prepareForGenerate()}
+                                className={"generate-button"}>Generate Puzzle
+                        </button>
+                    </div>
                 </div>
             </div>
-            <button onClick={() => prepareForGenerate()}>Generate Puzzle</button>
             <button onClick={() => autofill()}>For Luke: click here to autofill + generate</button>
         </div>
     )
